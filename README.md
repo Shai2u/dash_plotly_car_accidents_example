@@ -3,6 +3,13 @@
 In this post I will show you how to build a dashboard with a map step by step using dash-plotly and 
 dash-leaflet.
 
+We will be covering a number of cocepts in this post:
+1. Building a dashboard wich has a level of complexity to it step by step.
+2. Working with geographic data and learning the basics of dash-leaflet.
+3. Good python considerations.
+4. Simplify and deal with some dash-plotly considerations by utilising a few tricks.
+
+The dashboard that we will build will explore and show statistical insights along with maps presentation realting to car accidnets that occure in Israel
 
 As a data-scientist who is learning web-technology, there are numerous advantages of learning dahs-plotly.
 Dash-plotly is a basicly a python wrapper to react built upon a flask framework. The added benfits of udnerstanindng and practicing dash-plotly:
