@@ -1,25 +1,23 @@
-# Building a Dashbord with a map step by step using dash-plotly and dash-leaflet
+# Building a Dashboard with a Map: Step-by-Step Using Dash-Plotly and Dash-Leaflet
 
-In this post I will show you how to build a dashboard with a map step by step using dash-plotly and 
-dash-leaflet.
+In this post, I’ll walk you through building a dashboard with a map step by step, using Dash-Plotly and Dash-Leaflet. Whether you’re a beginner or intermediate data scientist, this guide will help you explore how to combine interactive visualizations with geographic data in a user-friendly interface.
 
-We will be covering a number of cocepts in this post:
-1. Building a dashboard wich has a level of complexity to it step by step.
-2. Working with geographic data and learning the basics of dash-leaflet.
-3. Good python considerations.
-4. Simplify and deal with some dash-plotly considerations by utilising a few tricks.
+Here’s what we’ll cover in this tutorial:
+	1.	Building a Complex Dashboard Step by Step: Learn to create a functional, interactive dashboard by designing it from scratch. We’ll walk through adding elements step by step, implementing callback interactivity, and applying styling to make it polished and user-friendly.
+	2.	Working with Geographic Data: Understand the basics of Dash-Leaflet for adding spatial data to your dashbaord.
+	3.	Best Practices in Python: Incorporate good coding practices to make your dashboard maintainable and scalable.
+	4.	Dash-Plotly Tricks: Simplify some challenging aspects of Dash-Plotly with helpful tips and techniques. 
 
-The dashboard that we will build will explore and show statistical insights along with maps presentation realting to car accidnets that occure in Israel
+The dashboard we’ll build will provide statistical insights and map visualizations related to car accidents in Israel.
 
-As a data-scientist who is learning web-technology, there are numerous advantages of learning dahs-plotly.
-Dash-plotly is a basicly a python wrapper to react built upon a flask framework. The added benfits of udnerstanindng and practicing dash-plotly:
-1. Knoweldge in HTML and CSS wich is essential in building frontend websites, and styling it.
-2. Since Dash is a wrapper of the powerfull react framework, Dash is perfect for those (like me) who are practicing react but want to quickly excetute a prototype before, in other words knowing dash-plotly is very good stop in learning react and knowing it's potential.
-3. Dash utilizes the flaks framework another important python framework for integrating front and back-end as well as building APIS
-4. Dash dahsboards or apps could very quickly get complex, The scucess of building a good dashboard or in some is to apply best python practice such as applying the PEP-8 style guide.
-5. Dash apps could be deployed on the web so this is also an opportunity to learn about deployment in various platforms such as AWS, Azure, GCP or DigitalOcean.
-6. It goes without saying that the source of a good dasbbord is it's data, whenever you build a dashbord (and it doesn't matter in what platform), you eventually would go through the process of of data wrangeling, cleaning, enhancing and exploring. so dash-plotly (or any other dashbord platofrm) is an excelelnt way to perfrom Exploritory data analysis (EDA)
-7. Unlike simplified dashboard creation platofrm (such as PowerBI or Tableau) the help you build dashboards quickly with almost no code, To build a dashboard in dash you will need to code it, yes you will get your hands dirty here, but using code the amount of costimization is much greater compared to the mentioned BI (buisness inteligence) apps, with dash you can do so much more than an advance dashboard, you could build a simulation, or even prototype application design, for example see dash-plotly gallery.
+If you’re a data scientist exploring web technologies, Dash-Plotly offers a fantastic starting point for building interactive dashboards and applications. Dash-Plotly is essentially a Python framework built on React and Flask, combining frontend interactivity with Python’s simplicity. Here’s why it’s worth learning:
+	1.	HTML and CSS Basics: Dash uses common tags as in HTML, it's an opportunity to learn foundational web design concepts for structuring and styling web-apps.
+	2.	React Potential: Dash is a Python wrapper to React. Basicly it acts as a bridge to understanding React. You can quickly prototype ideas and later dive deeper into React’s capabilities.
+	3.	Flask Framework: Since Dash is built on Flask, it introduces you to one of Python’s most popular frameworks for creating APIs and integrating frontend and backend functionalities.
+	4.	Coding Practice: Unlike platforms like Tableau or Power BI, Dash requires you to code your dashboards, providing more flexibility and customization. However, this also means that your code can quickly become cumbersome and difficult to manage. Dash offers an opportunity to practice/learn writing clean, organized, and maintainable code—skills that are crucial for developing scalable and efficient applications.
+	5.	Deployment Opportunities: Dash applications can be deployed on platforms like AWS, Azure, or GCP, giving you hands-on experience in web deployment.
+	6.	Exploratory Data Analysis (EDA): Building a dashboard involves data wrangling, cleaning, and exploration—core skills for any data scientist. Dash makes EDA interactive and engaging.
+	7.	Beyond Dashboards: Dash isn’t just for dashboards; it can power simulations, prototypes, or custom data-driven applications. Check out the Dash-Plotly Gallery for inspiration.
 
 
 The added advantages of learning dash-plotly
