@@ -11,13 +11,13 @@ Here’s what we’ll cover in this tutorial:
 The dashboard we’ll build will provide statistical insights and map visualizations related to car accidents in Israel.
 
 If you’re a data scientist exploring web technologies, Dash-Plotly offers a fantastic starting point for building interactive dashboards and applications. Dash-Plotly is essentially a Python framework built on React and Flask, combining frontend interactivity with Python’s simplicity. Here’s why it’s worth learning:
-	1.	HTML and CSS Basics: Dash uses common tags as in HTML, it's an opportunity to learn foundational web design concepts for structuring and styling web-apps.
-	2.	React Potential: Dash is a Python wrapper to React. Basicly it acts as a bridge to understanding React. You can quickly prototype ideas and later dive deeper into React’s capabilities.
-	3.	Flask Framework: Since Dash is built on Flask, it introduces you to one of Python’s most popular frameworks for creating APIs and integrating frontend and backend functionalities.
-	4.	Coding Practice: Unlike platforms like Tableau or Power BI, Dash requires you to code your dashboards, providing more flexibility and customization. However, this also means that your code can quickly become cumbersome and difficult to manage. Dash offers an opportunity to practice/learn writing clean, organized, and maintainable code—skills that are crucial for developing scalable and efficient applications.
-	5.	Deployment Opportunities: Dash applications can be deployed on platforms like AWS, Azure, or GCP, giving you hands-on experience in web deployment.
-	6.	Exploratory Data Analysis (EDA): Building a dashboard involves data wrangling, cleaning, and exploration—core skills for any data scientist. Dash makes EDA interactive and engaging.
-	7.	Beyond Dashboards: Dash isn’t just for dashboards; it can power simulations, prototypes, or custom data-driven applications. Check out the Dash-Plotly Gallery for inspiration.
+1. HTML and CSS Basics: Dash uses common tags as in HTML, it's an opportunity to learn foundational web design concepts for structuring and styling web-apps.
+2. React Potential: Dash is a Python wrapper to React. Basicly it acts as a bridge to understanding React. You can quickly prototype ideas and later dive deeper into React’s capabilities.
+3. Flask Framework: Since Dash is built on Flask, it introduces you to one of Python’s most popular frameworks for creating APIs and integrating frontend and backend functionalities.
+4. Coding Practice: Unlike platforms like Tableau or Power BI, Dash requires you to code your dashboards, providing more flexibility and customization. However, this also means that your code can quickly become cumbersome and difficult to manage. Dash offers an opportunity to practice/learn writing clean, organized, and maintainable code—skills that are crucial for developing scalable and efficient applications.
+5. Deployment Opportunities: Dash applications can be deployed on platforms like AWS, Azure, or GCP, giving you hands-on experience in web deployment.
+6. Exploratory Data Analysis (EDA): Building a dashboard involves data wrangling, cleaning, and exploration—core skills for any data scientist. Dash makes EDA interactive and engaging.
+7. Beyond Dashboards: Dash isn’t just for dashboards; it can power simulations, prototypes, or custom data-driven applications. Check out the Dash-Plotly Gallery for inspiration.
 
 
 The added advantages of learning dash-plotly
