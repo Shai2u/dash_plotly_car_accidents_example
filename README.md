@@ -117,6 +117,8 @@ if __name__ == "__main__":
 
 After setting up the initial layout, the next step is to place the Plotly and Leaflet elements within their designated div containers. Below, you’ll find the code snippets along with comments explaining what was done and why. At the end of this section, you’ll see a snapshot of the result at this stage.
 
+<details>
+  <summary>Click to expand the code snippet</summary>
 
 ```python
 from dash import Dash, html, dcc, callback, Output, Input
@@ -299,5 +301,6 @@ app.layout = html.Div(
 if __name__ == "__main__":
     app.run(debug=True)
 ```
+</details>
 
 ![Data Driven conent](./media/step_2_placeholders.png)
