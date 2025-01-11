@@ -21,42 +21,46 @@ If you’re a data scientist exploring web technologies, Dash-Plotly offers a fa
 
 In addition to creating a classic interactive dashboard, a significant portion of this post focuses on Dash-Leaflet—a Dash wrapper for the popular JavaScript mapping library, Leaflet. If you’re unfamiliar with this Dash component, you can think of it as a tool similar to Folium (a Python wrapper for Leaflet) but designed specifically for Dash-Plotly. However, this comparison isn’t entirely accurate. Unlike Folium, Dash-Leaflet directly wraps the JavaScript Leaflet library, making it more similar to React-Leaflet, which is a React wrapper for Leaflet.
 
-If the previous paragraph was not enitrely clear it's okay, the main take away of dash-leaflet is:
-It enables to create leaflet like maps (with a large nubmer of it's features) that ineracts with dash-plotly.
+If the previous paragraph wasn’t entirely clear, that’s okay! The key takeaway about Dash-Leaflet is that it enables you to create Leaflet-like maps (with many of its powerful features) that seamlessly interact with Dash-Plotly.
 
-Before we get started it's crutial to design the dashbord, and plan the executional steps of building the dashboards. 
+Before diving into the implementation, it’s crucial to design the dashboard and plan the execution steps for building it effectively.
 
-The goal of this dashbaord is to grain insihgts of spatio-temportal car accidents stastictiscs in Israel during 2023.
+The goal of this dashboard is to gain insights into the spatio-temporal statistics of car accidents in Israel during 2023.
 
 Here is the breakdown of the steps:
-#### Part 1. Layout
-1. Sketching the intial concept of the Dashboard, basicly we sketch what we want to showcase.
-2. Placing the static plotly elements in the layout as place-holders.
+#### Part 1. Sketching the Dashboard's layout
+1.	Sketch the Dashboard Concept: Start by sketching what you want the dashboard to showcase.
+2.	Add Static Elements: Place static Plotly elements in the layout as placeholders.
 
 #### Part 2. Data Driven conent
-3. Exchaning the static plotly elements with data-driven elemtns.
-4. Adding initial interactivity (callbacks) between the components.
+3.	Replace Static Elements: Exchange the static Plotly elements with data-driven plotly components from the dataset.
+4.	Introduce Interactivity: Add initial callbacks to enable basic interaction between components.
 
 #### Part 3. Setting up the map
-5. Enabling an environment map.
-6. Adding Geographic data to the map.
-7. Matching the style between the graph component and the map component. 
-8. Adding clusters layer to the environment map.
+5.	Enable an Environment Map: the environment map displays the boundig box of the main-maps viewport.
+6. Load Geographic Data: Integrate geographic data into the map.
+7.	Unify Styling: Match the styles of the graph and map components for a cohesive design.
+8.	Add Cluster Layers: Include clustering functionality on the environment map.
 
 #### Part 4. enabling interacitivy between the map and the other component of the dashboard
-9. Filtering date from the filter to the map
-10. Filtering data from the data view back to the graphs
+9. Filter Data to the Map: Allow filters to modify the content on the map dynamically.
+10.	Filter by viewport: Enable interactions where data displayed  on the map viewports updates the graphs, and vice versa.
+
 
 #### Part 5. Fine tuning the style using CSS
-11. Adding CSS to enhance the look of the map
+11.	Enhance Visual Design: Use CSS to refine the map’s appearance and overall dashboard aesthetics.
 
+
+The following gif animation displays (more-less) the different steps described above.
+![Dashboard Steps](./media/steps_animaiton.gif)
 
 The soruce of the data comes from accdients dataset From data.gov.il (Israel open soruce govemenral data website),
 The data has been processed and translated to enlgish in order to simplify the process.
 
-So without further due lets start learning how to build the dashboard step by step.
+So without further due lets start learning how to build the dashboard step by step!
 
-1. Sketching the inital concept of the dashboard,
+
+## 1. Sketching the Dashboard's layout
 
 ```python
 from dash import Dash, html
