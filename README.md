@@ -1,12 +1,12 @@
 # Building a Dashboard with a Map: Step-by-Step Using Dash-Plotly and Dash-Leaflet
 
-In this post, I’ll walk you through building a dashboard with a map step by step, using Dash-Plotly and Dash-Leaflet. Whether you’re a beginner or intermediate data scientist, this guide will help you explore how to combine interactive visualizations with geographic data in a user-friendly interface.
+In this post, I’ll walk you through building a dashboard with a map step by step, using Dash-Plotly and Dash-Leaflet. Whether you’re a beginner/intermediate data scientist or transitioning a GIS analyst with data science tools, this guide will help you explore how to combine interactive visualizations with geographic data in a user-friendly interface.
 
 Here’s what we’ll cover in this tutorial:
-	1.	Building a Complex Dashboard Step by Step: Learn to create a functional, interactive dashboard by designing it from scratch. We’ll walk through adding elements step by step, implementing callback interactivity, and applying styling to make it polished and user-friendly.
-	2.	Working with Geographic Data: Understand the basics of Dash-Leaflet for adding spatial data to your dashbaord.
-	3.	Best Practices in Python: Incorporate good coding practices to make your dashboard maintainable and scalable.
-	4.	Dash-Plotly Tricks: Simplify some challenging aspects of Dash-Plotly with helpful tips and techniques. 
+1.	Building a Complex Dashboard Step by Step: Learn to create a functional, interactive dashboard by designing it from scratch. We’ll walk through adding elements step by step, implementing callback interactivity, and applying styling to make it polished and user-friendly.
+2.	Working with Geographic Data: Understand the basics of Dash-Leaflet for adding spatial data to your dashbaord.
+3.	Best Practices in Python: Incorporate good coding practices to make your dashboard maintainable and scalable.
+4.	Dash-Plotly Tricks: Simplify some challenging aspects of Dash-Plotly with helpful tips and techniques. 
 
 The dashboard we’ll build will provide statistical insights and map visualizations related to car accidents in Israel.
 
@@ -19,15 +19,36 @@ If you’re a data scientist exploring web technologies, Dash-Plotly offers a fa
 6. Exploratory Data Analysis (EDA): Building a dashboard involves data wrangling, cleaning, and exploration—core skills for any data scientist. Dash makes EDA interactive and engaging.
 7. Beyond Dashboards: Dash isn’t just for dashboards; it can power simulations, prototypes, or custom data-driven applications. Check out the Dash-Plotly Gallery for inspiration.
 
+In addition to building a classic interactive dashboard a big part of this post is devoted to dash-leaflet, dash-leaflet is a dash wrapper to leaflet (JavaScript). If you are not familiar with this dash-component you can think of this as a an adaption of folium (python wrapper to leaflet) to dash-plotly. However this metaphor is not 100% accurate. Dash-leaflet is wrapper to the java-script leaflet library and not folium. This makes dash-leaflet more similar to the React-leaflet which is a React wrapper to leaflet.
 
-The added advantages of learning dash-plotly
+If the previous paragraph was not enitrely clear it's okay, the main take away of dash-leaflet is:
+It enables to create leaflet like maps (with a large nubmer of it's features) that ineracts with dash-plotly.
 
+Before we get started it's crutial to design the dashbord, and plan the executional steps of building the dashboards. 
 
-An important consideration in creation of a dashbaord is planning in advance the executationl steps
+The goal of this dashbaord is to grain insihgts of spatio-temportal car accidents stastictiscs in Israel during 2023.
+
 Here is the breakdown of the steps:
-1. Sketching the intial concept of the, basicly what we want to showcase.
-2. Placing the static plotly elements in the layout
-3. 
+#### Part 1. Layout
+1. Sketching the intial concept of the Dashboard, basicly we sketch what we want to showcase.
+2. Placing the static plotly elements in the layout as place-holders.
+
+#### Part 2. Data Driven conent
+3. Exchaning the static plotly elements with data-driven elemtns.
+4. Adding initial interactivity (callbacks) between the components.
+
+#### Part 3. Setting up the map
+5. Enabling an environment map.
+6. Adding Geographic data to the map.
+7. Matching the style between the graph component and the map component. 
+8. Adding clusters layer to the environment map.
+
+#### Part 4. enabling interacitivy between the map and the other component of the dashboard
+9. Filtering date from the filter to the map
+10. Filtering data from the data view back to the graphs
+
+#### Part 5. Fine tuning the style using CSS
+11. Adding CSS to enhance the look of the map
 
 
 The soruce of the data comes from accdients dataset From data.gov.il (Israel open soruce govemenral data website),
