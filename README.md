@@ -8,7 +8,7 @@ Here’s what we’ll cover in this tutorial:
 3.	Best Practices in Python: Incorporate good coding practices to make your dashboard maintainable and scalable.
 4.	Dash-Plotly Tricks: Simplify some challenging aspects of Dash-Plotly with helpful tips and techniques. 
 
-The dashboard we’ll build will provide statistical insights and map visualizations related to car accidents in Israel.
+The dashboard we’ll create will provide statistical insights and interactive map visualizations related to car accidents in Israel. It will feature a contextual bar graph that dynamically updates based on user selections, along with two maps: a large map displaying geographic data points and a smaller environmental map showing the bounding box of the larger map.
 
 If you’re a data scientist exploring web technologies, Dash-Plotly offers a fantastic starting point for building interactive dashboards and applications. Dash-Plotly is essentially a Python framework built on React and Flask, combining frontend interactivity with Python’s simplicity. Here’s why it’s worth learning:
 1. HTML and CSS Basics: Dash uses common tags as in HTML, it's an opportunity to learn foundational web design concepts for structuring and styling web-apps.
