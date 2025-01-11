@@ -5,6 +5,7 @@ click==8.1.8
 dash==2.18.2
 dash-core-components==2.0.0
 dash-html-components==2.0.0
+dash-leaflet==1.0.15
 dash-table==5.0.0
 Flask==3.0.3
 idna==3.10
