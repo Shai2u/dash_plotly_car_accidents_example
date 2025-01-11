@@ -70,7 +70,8 @@ pip install -r requirements.txt
 
 Typically, the first step in designing a dashboard is to define the key questions the dashboard aims to address. Once these are clear, it’s helpful to sketch the layout and components on paper (preferably) to plan the structure effectively. However, in this blog, we’ll skip the planning phase and fast-forward into creating the initial dashboard layout using code.
 
-In the following code, I created a 3x3 grid layout using html.Div elements and added placeholders as titles for the components I intend to include. I then merged some of the components that I anticipated would require more screen space, using the girdColumn/girdRow:span in the style. The resulting layout can be seen in the screenshot below the code snippet.
+In the following code, I created a 3x3 grid layout using html.Div elements and added placeholders as titles for the components I intend to include. I then merged some of the components that I anticipated would require more screen space, using the girdColumn/girdRow:span in the style. The resulting layout can be seen in the screenshot below the code snippet. 
+> **Note:** In the code, I incorporated some CSS styling practices and utilized html.Div components from Dash-Plotly. These concepts are rooted in the CSS/HTML front-end development context, which is beyond the scope of this blog post. However, if you’re curious or need more details, feel free to consult your GPT or search the internet for further information.
 
 ```python
 from dash import Dash, html
