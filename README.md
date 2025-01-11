@@ -59,6 +59,12 @@ The data has been processed and translated to enlgish in order to simplify the p
 
 So without further due lets start learning how to build the dashboard step by step!
 
+## 0. Setting up an environment
+ Setting up a development environment is beyond the scope of this blog post, with that said,  we highly recommend creating a dedicated virtual environment specifically for this project. This approach helps keep dependencies organized and prevents conflicts with other projects. Once the virtual environment is ready, install the required libraries to proceed.
+
+```sh
+pip install -r requirements.txt
+```
 
 ## 1. Sketching the Dashboard's layout
 
