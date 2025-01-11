@@ -19,7 +19,7 @@ If you’re a data scientist exploring web technologies, Dash-Plotly offers a fa
 6. Exploratory Data Analysis (EDA): Building a dashboard involves data wrangling, cleaning, and exploration—core skills for any data scientist. Dash makes EDA interactive and engaging.
 7. Beyond Dashboards: Dash isn’t just for dashboards; it can power simulations, prototypes, or custom data-driven applications. Check out the Dash-Plotly Gallery for inspiration.
 
-In addition to building a classic interactive dashboard a big part of this post is devoted to dash-leaflet, dash-leaflet is a dash wrapper to leaflet (JavaScript). If you are not familiar with this dash-component you can think of this as a an adaption of folium (python wrapper to leaflet) to dash-plotly. However this metaphor is not 100% accurate. Dash-leaflet is wrapper to the java-script leaflet library and not folium. This makes dash-leaflet more similar to the React-leaflet which is a React wrapper to leaflet.
+In addition to creating a classic interactive dashboard, a significant portion of this post focuses on Dash-Leaflet—a Dash wrapper for the popular JavaScript mapping library, Leaflet. If you’re unfamiliar with this Dash component, you can think of it as a tool similar to Folium (a Python wrapper for Leaflet) but designed specifically for Dash-Plotly. However, this comparison isn’t entirely accurate. Unlike Folium, Dash-Leaflet directly wraps the JavaScript Leaflet library, making it more similar to React-Leaflet, which is a React wrapper for Leaflet.
 
 If the previous paragraph was not enitrely clear it's okay, the main take away of dash-leaflet is:
 It enables to create leaflet like maps (with a large nubmer of it's features) that ineracts with dash-plotly.
