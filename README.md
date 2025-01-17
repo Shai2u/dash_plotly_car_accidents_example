@@ -489,3 +489,5 @@ if __name__ == "__main__":
     app.run(debug=True)
 ```
 </details>
+
+![Replace static elements with data-driven elemtns](media/step_3_use_df_data_in_columns.png)
