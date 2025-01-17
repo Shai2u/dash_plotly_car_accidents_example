@@ -69,13 +69,7 @@ def graph_generator(df, x_col, color_stack_col):
     fig.update_layout(legend_title_text=cols_to_labels[color_stack_col])
     return fig
 
-# Inital plot placeholder for dashbaord
-fig = px.bar(monthly_accidents, x='HODESH_TEUNA', y='count', color='HUMRAT_TEUNA',
-             title='Number of Accidents per Month', template='plotly_white')
-fig.update_layout(xaxis=dict(tickmode='linear'),
-                  margin=dict(l=0, r=0, t=25, b=25), height=400)
 
-# Main Map Component
 fig = graph_generator(df, x_col='HODESH_TEUNA', color_stack_col='HUMRAT_TEUNA')
 
 dah_main_map = dl.Map([
