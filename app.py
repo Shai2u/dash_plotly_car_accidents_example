@@ -10,8 +10,64 @@ file_dir = os.path.dirname(__file__)
 # Processed data from https://data.gov.il/dataset/2023-puf
 df = pd.read_csv(os.path.join(file_dir, 'accidents_2023_processed.csv'))
 
+
+# Process Data
+cols_to_labels = {
+    'HODESH_TEUNA': 'Month', 'SUG_DEREH': 'Road Type', 'SUG_YOM': 'Day Type',
+    'YOM_LAYLA': 'Day or Night', 'YOM_BASHAVUA': 'Day of the week', 'HUMRAT_TEUNA': 'Savirity of Accident', 'PNE_KVISH': 'Road Condition'
+}
+labels_to_cols = dict(zip(cols_to_labels.values(), cols_to_labels.keys()))
+non_numerical_columns = df.select_dtypes(exclude=['number']).columns.tolist()
+non_numerical_labels = [cols_to_labels[col] for col in non_numerical_columns]
+columns_for_graph = non_numerical_columns.copy()
+columns_for_graph.append('HODESH_TEUNA')
+labels_for_graph = non_numerical_labels.copy()
+labels_for_graph.append('Month')
+
+col_unique_values_dict = {}
+labels_unique_values_dict = {}
+for col in non_numerical_columns:
+    col_unique_values_dict[col] = df[col].unique().tolist()
+    labels_unique_values_dict[cols_to_labels[col]
+                              ] = col_unique_values_dict[col]
+    
+
 monthly_accidents = df.groupby(
     ['HODESH_TEUNA', 'HUMRAT_TEUNA']).size().reset_index(name='count')
+
+# Function to generate bar graph
+def graph_generator(df, x_col, color_stack_col):
+    """
+    Generates a bar graph using Plotly based on the provided DataFrame.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        The input DataFrame containing the data to be plotted.
+    x_col : str
+        The column name in the DataFrame to be used for the x-axis.
+    color_stack_col : str
+        The column name in the DataFrame to be used for stacking colors in the bar graph.
+
+    Returns
+    -------
+    plotly.graph_objs._figure.Figure
+        A Plotly Figure object representing the generated bar graph.
+
+    Notes
+    -----
+    - The function groups the DataFrame by `x_col` and `color_stack_col` and counts the occurrences.
+    - The x-axis and y-axis titles are updated based on the `cols_to_labels` dictionary.
+    - The legend title is also updated based on the `cols_to_labels` dictionary.
+    - The layout of the figure is customized to have no margins and a fixed height of 400.
+    """
+    gb_df = df.groupby([x_col, color_stack_col]).size().reset_index(name='count')
+    fig = px.bar(gb_df, x=x_col, y='count', color=color_stack_col, template='plotly_white')
+    fig.update_layout(xaxis={'tickmode': 'linear'}, margin={'l': 0, 'r': 0, 't': 25, 'b': 25}, height=400)
+    fig.update_xaxes(title_text=cols_to_labels[x_col])
+    fig.update_yaxes(title_text='Number of Accidents')
+    fig.update_layout(legend_title_text=cols_to_labels[color_stack_col])
+    return fig
 
 # Inital plot placeholder for dashbaord
 fig = px.bar(monthly_accidents, x='HODESH_TEUNA', y='count', color='HUMRAT_TEUNA',
@@ -20,10 +76,11 @@ fig.update_layout(xaxis=dict(tickmode='linear'),
                   margin=dict(l=0, r=0, t=25, b=25), height=400)
 
 # Main Map Component
+fig = graph_generator(df, x_col='HODESH_TEUNA', color_stack_col='HUMRAT_TEUNA')
+
 dah_main_map = dl.Map([
                     dl.TileLayer(
                         url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'),
-
                     dl.LocateControl(
                         locateOptions={'enableHighAccuracy': True})
                 ],
@@ -53,6 +110,15 @@ dash_env_map = dl.Map([
                     doubleClickZoom=False,
                     boxZoom=False,
                 )
+
+# Populate filter divs
+list_filter_divs = []
+for i, title in enumerate(non_numerical_labels):
+    new_filter_div = html.Div([
+        html.B(title),
+        dcc.Checklist(labels_unique_values_dict[title], labels_unique_values_dict[title], id=f'filter_{i+1}_checklist')
+    ])
+    list_filter_divs.append(new_filter_div)
 app = Dash()
 
 
@@ -75,62 +141,7 @@ app.layout = html.Div(
         ),
         # Filters Section
         html.Div(
-            [
-                html.Div(
-                    [
-                        html.B('Filter 1'),
-                        dcc.Checklist(
-                            ['New York City', 'Montréal', 'San Francisco'],
-                            ['Montréal', 'San Francisco']
-                        )
-                    ]
-                ),
-                html.Div(
-                    [
-                        html.B('Filter 2'),
-                        dcc.Checklist(
-                            ['New York City', 'Montréal', 'San Francisco'],
-                            ['Montréal', 'San Francisco']
-                        )
-                    ]
-                ),
-                html.Div(
-                    [
-                        html.B('Filter 3'),
-                        dcc.Checklist(
-                            ['New York City', 'Montréal', 'San Francisco'],
-                            ['Montréal', 'San Francisco']
-                        )
-                    ]
-                ),
-                html.Div(
-                    [
-                        html.B('Filter 4'),
-                        dcc.Checklist(
-                            ['New York City', 'Montréal', 'San Francisco'],
-                            ['Montréal', 'San Francisco']
-                        )
-                    ]
-                ),
-                html.Div(
-                    [
-                        html.B('Filter 5'),
-                        dcc.Checklist(
-                            ['New York City', 'Montréal', 'San Francisco'],
-                            ['Montréal', 'San Francisco']
-                        )
-                    ]
-                ),
-                html.Div(
-                    [
-                        html.B('Filter 6'),
-                        dcc.Checklist(
-                            ['New York City', 'Montréal', 'San Francisco'],
-                            ['Montréal', 'San Francisco']
-                        )
-                    ]
-                ),
-            ],
+            list_filter_divs,
             style={'gridColumn': 'span 2', 'display': 'flex', **cell_style}
         ),
         # Main Map Div
@@ -145,17 +156,11 @@ app.layout = html.Div(
                 html.Div(
                     [
                         html.Div(
-                            dcc.Dropdown(
-                                ['New York City', 'Montréal', 'San Francisco'],
-                                'Montréal'
-                            ),
+                            dcc.Dropdown(labels_for_graph,labels_for_graph[-1], id='x_axis_dropdown'),
                             style={'flex': '1', 'textAlign': 'left'}
                         ),
                         html.Div(
-                            dcc.Dropdown(
-                                ['New York City', 'Montréal', 'San Francisco'],
-                                'Montréal'
-                            ),
+                            dcc.Dropdown(labels_for_graph, labels_for_graph[-3], id='color_stack_dropdown'),
                             style={'flex': '1', 'textAlign': 'left'}
                         )
                     ],
