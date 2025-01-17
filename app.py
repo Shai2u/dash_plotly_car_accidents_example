@@ -122,7 +122,9 @@ dah_main_map = dl.Map([
 # Environmental Map Component
 dash_env_map = dl.Map([
                     dl.TileLayer(
-                        url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png')
+                        url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'),
+                    dl.Polygon(positions=[], id='env_map_bb_polygon', color='red', fillOpacity=0)
+
                 ],
                     center=[32, 34.9],
                     zoom=8,
@@ -134,6 +136,10 @@ dash_env_map = dl.Map([
                     doubleClickZoom=False,
                     boxZoom=False,
                 )
+
+# Function to generate bounding box from bounds
+generate_bounds = lambda b: [[b[0][0], b[0][1]], [b[1][0], b[0][1]], [b[1][0], b[1][1]], [b[0][0], b[1][1]]]
+
 
 # Populate filter divs
 list_filter_divs = []
@@ -264,6 +270,30 @@ def update_contextual_graph_map(x_axis, color_stack, filter_1_values, filter_2_v
     else:
         fig = empty_graph()
     return fig
+
+
+"""
+Updates the positions of the bounding box polygon on the environmental map.
+
+Parameters
+----------
+bounds : list of list of float
+    The bounds of the main map in the format [[southwest_lat, southwest_lng], [northeast_lat, northeast_lng]].
+
+Returns
+-------
+list of list of float
+    The positions of the bounding box polygon in the format [[lat1, lng1], [lat2, lng2], [lat3, lng3], [lat4, lng4]].
+    If bounds is None, returns an empty list.
+"""
+@app.callback(
+    Output('env_map_bb_polygon', 'positions'),
+     Input('main_map', 'bounds')
+)
+def update_env_map_center(bounds ):
+    if bounds is None:
+        return generate_bounds([[31.857, 34.652], [32.142, 35.148]])
+    return generate_bounds(bounds)
 
 
 if __name__ == "__main__":
