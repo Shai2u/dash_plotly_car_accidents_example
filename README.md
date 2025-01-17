@@ -54,7 +54,7 @@ Here is the breakdown of the steps:
 The following gif animation displays (more-less) the different steps described above.
 ![Dashboard Steps](./media/steps_animaiton.gif)
 
-The soruce of the data comes from accdients dataset From data.gov.il (Israel open soruce govemenral data website),
+The source of the data comes from accdients dataset From data.gov.il (Israel open source govemenral data website),
 The data has been processed and translated to enlgish in order to simplify the process.
 
 So without further due lets start learning how to build the dashboard step by step!
@@ -115,7 +115,9 @@ if __name__ == "__main__":
 
 ## 2. Add Static Elements
 
-After setting up the initial layout, the next step is to place the Plotly and Leaflet elements within their designated div containers. Below, you’ll find the code snippets along with comments explaining what was done and why. At the end of this section, you’ll see a snapshot of the result at this stage.
+After setting up the initial layout, the next step is to place the Plotly and Leaflet elements within their designated div containers. Below, you’ll find the code snippets along with comments explaining what was done and why. At the end of this section, you’ll see a snapshot of the result at this stage. 
+
+> **Note:** The following code simply copies sample code from the Dash-Plotly tutorial into the various div containers in the layout. This step serves primarily as a placeholder for the UI widgets. Since there’s nothing particularly complex about this step, I won’t go into detailed explanations here.
 
 <details>
   <summary>Click to expand the code snippet</summary>
