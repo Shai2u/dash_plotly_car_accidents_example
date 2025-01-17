@@ -803,6 +803,7 @@ Refer to the comments in the code for more details.
 
 <details>
   <summary>Click to expand the code snippet</summary>
+  
 ```python
 from dash import Dash, html, dcc, callback, Output, Input
 import dash_leaflet as dl
@@ -1106,5 +1107,6 @@ if __name__ == "__main__":
     app.run(debug=True)
 ```
 </details>
+
 ![Environment Map Bounds interactivity](./media/step_4_env_map_gif.gif)
 
