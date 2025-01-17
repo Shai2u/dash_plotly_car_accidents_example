@@ -70,6 +70,36 @@ def graph_generator(df, x_col, color_stack_col):
     return fig
 
 
+# Function to generate an empty graph with a message
+def empty_graph():
+    """
+    Create an empty scatter plot with an annotation.
+
+    This function generates an empty scatter plot using Plotly Express and adds an annotation
+    in the center of the plot indicating that a graph cannot be produced. The plot has no visible
+    axes and a transparent background.
+
+    Returns
+    -------
+    plotly.graph_objs._figure.Figure
+        A Plotly Figure object representing the empty scatter plot with the annotation.
+    """
+    fig = px.scatter()
+    fig.add_annotation(
+        text="Cannot produce a graph",
+        xref="paper", yref="paper",
+        x=0.5, y=0.5, showarrow=False,
+        font={'size': 20, 'color': "red"}
+    )
+    fig.update_layout(
+        xaxis={'visible': False},
+        yaxis={'visible': False},
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
+        margin={'l': 0, 'r': 0, 't': 40, 'b': 0},
+        height=300
+    )
+    return fig
 fig = graph_generator(df, x_col='HODESH_TEUNA', color_stack_col='HUMRAT_TEUNA')
 
 dah_main_map = dl.Map([
@@ -167,6 +197,74 @@ app.layout = html.Div(
         html.Div(dash_env_map)
     ]
 )
+
+
+
+# Callback to update the contextual graph and map based on user inputs
+"""
+Update the contextual graph and map based on the provided filters and map bounds.
+
+Parameters
+----------
+x_axis : str
+    The value selected in the x-axis dropdown.
+color_stack : str
+    The value selected in the color stack dropdown.
+filter_1_values : list
+    The values selected in the first filter checklist.
+filter_2_values : list
+    The values selected in the second filter checklist.
+filter_3_values : list
+    The values selected in the third filter checklist.
+filter_4_values : list
+    The values selected in the fourth filter checklist.
+filter_5_values : list
+    The values selected in the fifth filter checklist.
+filter_6_values : list
+    The values selected in the sixth filter checklist.
+
+
+
+Returns
+-------
+fig : plotly.graph_objs._figure.Figure
+    The updated figure for the contextual graph.
+points_geojson : dict
+    The GeoJSON data for the points to be displayed on the map.
+points_geojson : dict
+    The GeoJSON data for the environmental map.
+hideout : dict
+    The updated hideout parameters.
+"""
+@app.callback(
+    Output('contextual_graph', 'figure'),
+    Input('x_axis_dropdown', 'value'),
+    Input('color_stack_dropdown', 'value'),
+    Input('filter_1_checklist', 'value'),
+    Input('filter_2_checklist', 'value'),
+    Input('filter_3_checklist', 'value'),
+    Input('filter_4_checklist', 'value'),
+    Input('filter_5_checklist', 'value'),
+    Input('filter_6_checklist', 'value'),
+)
+    
+def update_contextual_graph_map(x_axis, color_stack, filter_1_values, filter_2_values, filter_3_values, filter_4_values, filter_5_values, filter_6_values):
+    df_filtered = df.copy()
+    filter_q = []
+    for i, title in enumerate(non_numerical_labels):
+        filter_col = labels_to_cols[title]
+        filter_values = eval(f'filter_{i+1}_values')
+        if i == 0:
+            filter_q = df_filtered[filter_col].isin(filter_values).values
+        else:
+            filter_q = filter_q & df_filtered[filter_col].isin(filter_values).values
+    df_filtered = df_filtered[filter_q]
+    if x_axis != color_stack:
+        fig = graph_generator(df_filtered, x_col=labels_to_cols[x_axis], color_stack_col=labels_to_cols[color_stack])
+    else:
+        fig = empty_graph()
+    return fig
+
 
 if __name__ == "__main__":
     app.run(debug=True)
