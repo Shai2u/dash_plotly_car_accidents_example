@@ -38,7 +38,7 @@ Here is the breakdown of the steps:
 
 #### Part 3. Setting up the map
 5.	Enable an Environment Map: the environment map displays the boundig box of the main-maps viewport.
-6. Load Geographic Data: Integrate geographic data into the map.
+6.  Load Geographic Data: Integrate geographic data into the map.
 7.	Unify Styling: Match the styles of the graph and map components for a cohesive design.
 8.	Add Cluster Layers: Include clustering functionality on the environment map.
 
@@ -491,3 +491,22 @@ if __name__ == "__main__":
 </details>
 
 ![Replace static elements with data-driven elemtns](media/step_3_use_df_data_in_columns.png)
+
+
+## 4.	Introduce Interactivity: Add initial callbacks to enable basic interaction between components.
+
+What gives a dashboard its “wow” factor in Dash-Plotly is the power of callbacks. Callbacks are entirely code-based, which provides a significant advantage over simplified BI platforms. This distinction allows for unparalleled flexibility and customization. With Python code, any section of the dashboard can be adjusted or updated dynamically based on user interactions or the state of other widgets.
+
+Practically speaking, the possibilities are endless. Dash apps can evolve beyond traditional dashboards to tell complex stories, simulate scenarios, serve as interactive games, or even act as platforms for training machine learning models. In this sense, Dash-Plotly aligns more closely with web development frameworks in the front-end development context, offering a deeper level of control and functionality.
+
+In this post, we won’t dive into the fundamentals of callbacks. Instead, as in the previous sections, we’ll provide a taste of how to implement them. In the code below, we introduce interactivity by filtering the rows of the dataframe passed to the contextual graph in the center-right part of the dashboard. Additionally, we enable control over the X-axis and the stacking (Y-axis and group data count) using dropdown menus. Refer to the comments in the code for more details. 
+For more information on getting started with callback refer to [Dash Plotly callback-basics](https://dash.plotly.com/basic-callbacks)
+
+<details>
+  <summary>Click to expand the code snippet</summary>
+
+```python
+
+```
+</dtails>
+![Callback between the filters, dropdown menus and the graphs](./media/step_3_5_callback.gif)
