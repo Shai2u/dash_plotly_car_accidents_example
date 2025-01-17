@@ -117,7 +117,7 @@ if __name__ == "__main__":
 
 After setting up the initial layout, the next step is to place the Plotly and Leaflet elements within their designated div containers. Below, you’ll find the code snippets along with comments explaining what was done and why. At the end of this section, you’ll see a snapshot of the result at this stage. 
 
-> **Note:** The following code simply copies sample code from the Dash-Plotly tutorial into the various div containers in the layout. This step serves primarily as a placeholder for the UI widgets. Since there’s nothing particularly complex about this step, I won’t go into detailed explanations here.
+> **Note:** The following code simply copies sample code from the Dash-Plotly/Plotly tutorial into the various div containers in the layout. This step serves primarily as a placeholder for the UI widgets. Since there’s nothing particularly complex about this step, I won’t go into detailed explanations here.
 
 <details>
   <summary>Click to expand the code snippet</summary>
@@ -306,3 +306,7 @@ if __name__ == "__main__":
 </details>
 
 ![Data Driven conent](./media/step_2_placeholders.png)
+
+## 3. Replace static elements with data-driven elemtns
+
+In the following code, we replaced the static examples (e.g., New York City, Montréal) in the dropdown menu and checkbox data with dynamic values extracted from the CSV’s features. This step adds meaningful context to the dashboard. The code snippets below outline the process. In short, we extracted unique values for each column. Additionally, we performed other manipulations, such as wrapping some graph generators into methods for better reusability and organization.
