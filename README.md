@@ -2678,6 +2678,37 @@ if __name__ == "__main__":
 
 ![Step 9. Filter by viewport](./media/step_9_fitler_by_map_viewport.gif)
 
+## Step 10. Enhance Visual Design: Use CSS to refine the map’s appearance and overall dashboard aesthetics.
+We’ve now reached the final step. All the widgets are set, and I’m mostly satisfied with the interactions. Of course, there’s always room for more improvement and fine-tuning, but for now, I want to wrap up this tutorial with a touch of styling.
+
+Instead of applying styles directly in the code using the style attribute, I recommend using Cascading Style Sheets (CSS). Dash-Plotly supports external styling sheets, which is a major advantage as CSS adds significant flexibility for styling. Additionally, it allows us to collaborate with a CSS professional to elevate the visual design and user experience to the next level.
+
+Another benefit of using CSS is that it helps reduce clutter in the code by centralizing styling rules. This aligns with the “Write Once, Run Anywhere” (WORA) principle, making the code cleaner and easier to maintain.
+
+To implement CSS styling, follow these three steps:
+	1.	Assign an id attribute to each object you want to style.
+	2.	Create a style.css file inside the assets folder.
+	3.	Remove any redundant inline styles from the code.
+
+In the following code snippets, notice the newly added id attributes assigned to various objects and divisions.
+
+<details>
+  <summary>Click to expand the code snippet for app.py</summary>
+
+```python
+```
+
+</details>
+
+The following code represents the new style.css file, which needs to be saved in the assets folder. The CSS file will be automatically loaded and applied to the app.py file the next time the application is executed.
+
+<details>
+  <summary>Click to expand the code snippet for ./assets/style.css</summary>
+
+```python
+```
+
+</details>
 # Conclusion
 
 In my opinion, Dash-plotly serves in the sweet spot betweet quick dashboards that can be created using BI apps (tableua, pwoerBI), and advance complex web-apps that can be created using React. In with it comes it charm, it enables to create simple web-apps or sophisticated dashbaord relativly with ease. It's a great way to transmit ideas or portotype by data scientist and GIS anlyst who want to transition to Data Science. In this long post we went quickly reviewd 11 steps in creating not a basic geo-dashboard, from inital sketching, to placeholding, adding callbacks, adding geogrpqahic elements and finally we styled the dashbarod using css. In addition we reviewd a couple of tricks and work arounds. Since this article was long enough we couldn't get in deapth for each of the steps, it is for you to experiment and keep on learning. I see this tutorial as a template starting point for thsoe who want to get up and running with a geogrpahic dahshboard. 
