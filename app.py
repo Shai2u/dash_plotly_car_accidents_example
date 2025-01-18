@@ -26,6 +26,7 @@ columns_for_graph.append('HODESH_TEUNA')
 labels_for_graph = non_numerical_labels.copy()
 labels_for_graph.append('Month')
 
+# Create dictionaries for unique values of each column
 col_unique_values_dict = {}
 labels_unique_values_dict = {}
 for col in non_numerical_columns:
@@ -124,6 +125,12 @@ def graph_generator(df, x_col, color_stack_col, **kwargs):
     fig.update_layout(legend_title_text=cols_to_labels[color_stack_col])
     return fig
 
+# Initialize color dictionary for graphs
+col_values_color = {}
+for col in columns_for_graph:
+    if col != 'HODESH_TEUNA':
+        fig = graph_generator(df, x_col='HODESH_TEUNA', color_stack_col=col)
+        col_values_color[col] = {item['name']: item['marker']['color'] for item in fig.to_dict()['data']}
 
 # Function to generate an empty graph with a message
 def empty_graph():
@@ -170,6 +177,7 @@ hide_out_dict = {
     'circleOptions': {'fillOpacity': 1, 'stroke': False, 'radius': 3.5},
     'color_dict': col_values_color
 }
+# Main map Componenet
 dah_main_map = dl.Map([
                     dl.TileLayer(
                         url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'),
@@ -184,7 +192,7 @@ dah_main_map = dl.Map([
                 ],
                     center=[32, 34.9],
                     zoom=12,
-                    style={'height': '100%'},
+                    style={'height': '75vh'},
                     id='main_map',
                     dragging=True,
                     zoomControl=True,
@@ -204,7 +212,7 @@ dash_env_map = dl.Map([
                 ],
                     center=[32, 34.9],
                     zoom=8,
-                    style={'height': '100%'},
+                        style={'height': '40vh'},
                     id='env_map',
                     dragging=False,
                     zoomControl=False,
@@ -222,12 +230,12 @@ for i, title in enumerate(non_numerical_labels):
     new_filter_div = html.Div([
         html.B(title),
         dcc.Checklist(labels_unique_values_dict[title], labels_unique_values_dict[title], id=f'filter_{i+1}_checklist')
-    ])
+    ], className="div-card", style={ 'flex': '1', 'textAlign': 'left'})
     list_filter_divs.append(new_filter_div)
 
 app = Dash()
 
-cell_style = {'padding': '20px'}
+cell_style = {'padding': '10px', 'text-align': 'center'}
 # Set the layout right the first time!
 app.layout = html.Div(
     style={
@@ -236,21 +244,33 @@ app.layout = html.Div(
         'gridTemplateRows': '26% 37% 37%',
         'gap': '10px',
         'height': '100vh',
-        'width': '100vw'
+        'width': '100vw',
+        'alignItems': 'center'
     },
     children=[
+
+
         html.Div(
-            html.H1('Car Accidents in Israel 2023'),
-            style={**cell_style}
+            html.Div(
+                html.H1('Car Accidents in Israel 2023'),className="div-card",
+                style={
+                'textAlign': 'center',
+                'display': 'flex',
+                'flexDirection': 'column',
+                'justifyContent': 'center',
+                'width':'100%',
+            }
+            ), style = {'display': 'flex', 'height': '250px',  'justifyContent': 'center'}
         ),
         # Filters Section
         html.Div(
             list_filter_divs,
-            style={'gridColumn': 'span 2', 'display': 'flex', **cell_style}
-        ),
+            style={'display': 'flex','gridColumn': 'span 2', 'height': '250px'},
+                            ),
         # Main Map Div
         html.Div(
             dah_main_map,
+            className="div-card",
             style={'gridColumn': 'span 2', 'gridRow': 'span 2'}
         ),
         # Contextual Graph Div
@@ -275,7 +295,7 @@ app.layout = html.Div(
                 dcc.Checklist(['Filter Map-view'], id="filter_map_view"),
             ], className="div-card"
         ),
-        html.Div(dash_env_map,className="div-card", style={'alignItems': 'center', 'textAlign':'center'})
+        html.Div(dash_env_map, className="div-card", style={'alignItems': 'center', 'textAlign':'center'})
     ]
 )
 
@@ -388,6 +408,5 @@ def update_env_map_center(bounds ):
         return generate_bounds([[31.857, 34.652], [32.142, 35.148]])
     return generate_bounds(bounds)
 
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
