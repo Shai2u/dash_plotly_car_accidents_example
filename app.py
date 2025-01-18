@@ -1,5 +1,7 @@
 from dash import Dash, html, dcc, callback, Output, Input
+from dash_extensions.javascript import assign
 import dash_leaflet as dl
+import geopandas as gpd
 import plotly.express as px
 import pandas as pd
 import os
@@ -34,6 +36,24 @@ for col in non_numerical_columns:
 
 monthly_accidents = df.groupby(
     ['HODESH_TEUNA', 'HUMRAT_TEUNA']).size().reset_index(name='count')
+
+# Convert DataFrame to GeoDataFrame
+gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df.lon, df.lat))
+gdf['active_col'] = 'HUMRAT_TEUNA'
+points_geojson = gdf.__geo_interface__
+
+
+def assign_point_to_layer():
+    point_to_layer = assign("""function(feature, latlng, context){
+    const {circleOptions} = context.hideout;
+    return L.circleMarker(latlng, circleOptions);  // render a simple circle marker
+    }""")
+    return point_to_layer
+def assign_on_each_feature():
+    on_each_feature = assign("""function(feature, layer, context){
+        layer.bindTooltip(`${feature.properties.HODESH_TEUNA} (${feature.properties.SUG_DEREH})`)
+    }""")
+
 
 # Function to generate bar graph
 def graph_generator(df, x_col, color_stack_col):
@@ -101,10 +121,17 @@ def empty_graph():
     )
     return fig
 fig = graph_generator(df, x_col='HODESH_TEUNA', color_stack_col='HUMRAT_TEUNA')
+hide_out_dict = {'circleOptions': {'radius': 5, 'fillColor': 'blue','fillOpacity': 1, 'stroke':False,}}
 
 dah_main_map = dl.Map([
                     dl.TileLayer(
                         url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'),
+                     dl.GeoJSON(
+                        id='lines_geojson', data=points_geojson,
+                        pointToLayer=assign_point_to_layer(),  # how to draw points
+                        onEachFeature=assign_on_each_feature(),  # add (custom) tooltip
+                        hideout=hide_out_dict,
+                     ),
                     dl.LocateControl(
                         locateOptions={'enableHighAccuracy': True})
                 ],
@@ -140,7 +167,6 @@ dash_env_map = dl.Map([
 # Function to generate bounding box from bounds
 generate_bounds = lambda b: [[b[0][0], b[0][1]], [b[1][0], b[0][1]], [b[1][0], b[1][1]], [b[0][0], b[1][1]]]
 
-
 # Populate filter divs
 list_filter_divs = []
 for i, title in enumerate(non_numerical_labels):
@@ -149,8 +175,8 @@ for i, title in enumerate(non_numerical_labels):
         dcc.Checklist(labels_unique_values_dict[title], labels_unique_values_dict[title], id=f'filter_{i+1}_checklist')
     ])
     list_filter_divs.append(new_filter_div)
-app = Dash()
 
+app = Dash()
 
 cell_style = {'padding': '20px'}
 # Set the layout right the first time!
@@ -164,7 +190,6 @@ app.layout = html.Div(
         'width': '100vw'
     },
     children=[
-        # Main Title
         html.Div(
             html.H1('Car Accidents in Israel 2023'),
             style={**cell_style}
@@ -228,8 +253,6 @@ filter_5_values : list
     The values selected in the fifth filter checklist.
 filter_6_values : list
     The values selected in the sixth filter checklist.
-
-
 
 Returns
 -------
