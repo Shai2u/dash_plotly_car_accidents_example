@@ -80,7 +80,11 @@ def assign_point_to_layer():
     }""")
     return point_to_layer
 
-
+# Hide points that are out of the range in the search clsuter (env_map)
+point_to_layer_hide = assign("""function(feature, latlng, context){
+    circleOptions = {fillOpacity: 0, stroke: false, radius: 0};
+    return L.circleMarker(latlng, circleOptions);  // render a simple circle marker
+}""")
 # Function to generate bar graph
 def graph_generator(df, x_col, color_stack_col, **kwargs):
     """
@@ -193,6 +197,8 @@ dah_main_map = dl.Map([
 dash_env_map = dl.Map([
                     dl.TileLayer(
                         url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'),
+                    dl.GeoJSON(id='lines_env_geojson', data=points_geojson, cluster=True, superClusterOptions={'radius': 125}, pointToLayer=point_to_layer_hide),  # hide remaining  points
+
                     dl.Polygon(positions=[], id='env_map_bb_polygon', color='red', fillOpacity=0)
 
                 ],
@@ -273,7 +279,6 @@ app.layout = html.Div(
 )
 
 
-
 # Callback to update the contextual graph and map based on user inputs
 """
 Update the contextual graph and map based on the provided filters and map bounds.
@@ -296,6 +301,10 @@ filter_5_values : list
     The values selected in the fifth filter checklist.
 filter_6_values : list
     The values selected in the sixth filter checklist.
+filter_boudns : list
+    The value selected in the filter map view.
+map_bounds : list
+    The bounds of the main map.
 hideout : dict
     The hideout data from the lines_geojson.
 
@@ -313,6 +322,7 @@ hideout : dict
 @app.callback(
     Output('contextual_graph', 'figure'),
     Output('lines_geojson', 'data'),
+    Output('lines_env_geojson', 'data'),
     Output('lines_geojson', 'hideout'),
     Input('x_axis_dropdown', 'value'),
     Input('color_stack_dropdown', 'value'),
@@ -324,8 +334,8 @@ hideout : dict
     Input('filter_6_checklist', 'value'),
     Input('main_map', 'bounds'),
     Input('lines_geojson', 'hideout'),
-
 )
+    
 def update_contextual_graph_map(x_axis, color_stack, filter_1_values, filter_2_values, filter_3_values, filter_4_values, filter_5_values, filter_6_values, map_bounds, hideout):
     df_filtered = df.copy()
     filter_q = []
@@ -342,10 +352,10 @@ def update_contextual_graph_map(x_axis, color_stack, filter_1_values, filter_2_v
     points_geojson = gdf_copy.__geo_interface__
     hideout['active_col'] = labels_to_cols[color_stack]
     if x_axis != color_stack:
-        fig = graph_generator(df_filtered, x_col=labels_to_cols[x_axis], color_stack_col=labels_to_cols[color_stack], col_values_color=col_values_color)
+        fig = graph_generator(df_filtered, x_col=labels_to_cols[x_axis], color_stack_col=labels_to_cols[color_stack], col_values_color = col_values_color)
     else:
         fig = empty_graph()
-    return fig, points_geojson, hideout
+    return fig, points_geojson, points_geojson, hideout
 
 
 """
