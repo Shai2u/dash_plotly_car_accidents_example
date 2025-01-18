@@ -259,22 +259,23 @@ app.layout = html.Div(
                 dcc.Graph(figure=fig, id='contextual_graph'),
                 html.Div(
                     [
-                        html.Div(
-                            dcc.Dropdown(labels_for_graph,labels_for_graph[-1], id='x_axis_dropdown'),
+                        html.Div([
+                            'X-axis:',
+                            dcc.Dropdown(labels_for_graph,labels_for_graph[-1], id='x_axis_dropdown')],
                             style={'flex': '1', 'textAlign': 'left'}
                         ),
                         html.Div(
-                            dcc.Dropdown(labels_for_graph, labels_for_graph[-3], id='color_stack_dropdown'),
+                            ['Color Stack:',
+                            dcc.Dropdown(labels_for_graph, labels_for_graph[-3], id='color_stack_dropdown')],
                             style={'flex': '1', 'textAlign': 'left'}
                         )
                     ],
                     style={'display': 'flex'}
                 ),
-                dcc.Checklist(['Filter Map-view']),
-            ]
+                dcc.Checklist(['Filter Map-view'], id="filter_map_view"),
+            ], className="div-card"
         ),
-        # Environmental Map Div
-        html.Div(dash_env_map)
+        html.Div(dash_env_map,className="div-card", style={'alignItems': 'center', 'textAlign':'center'})
     ]
 )
 
@@ -306,7 +307,7 @@ filter_boudns : list
 map_bounds : list
     The bounds of the main map.
 hideout : dict
-    The hideout data from the points_geojson.
+    The hideout data from the lines_geojson.
 
 Returns
 -------
@@ -332,12 +333,18 @@ hideout : dict
     Input('filter_4_checklist', 'value'),
     Input('filter_5_checklist', 'value'),
     Input('filter_6_checklist', 'value'),
+    Input('filter_map_view', 'value'),
     Input('main_map', 'bounds'),
     Input('points_geojson', 'hideout'),
 )
     
-def update_contextual_graph_map(x_axis, color_stack, filter_1_values, filter_2_values, filter_3_values, filter_4_values, filter_5_values, filter_6_values, map_bounds, hideout):
+def update_contextual_graph_map(x_axis, color_stack, filter_1_values, filter_2_values, filter_3_values, filter_4_values, filter_5_values, filter_6_values, filter_boudns, map_bounds, hideout):
     df_filtered = df.copy()
+    if (filter_boudns not in [None, []]) and (map_bounds is not None):
+        ll, ur = map_bounds
+        y_ll, x_ll = ll
+        y_ur, x_ur = ur
+        df_filtered = df_filtered[(df_filtered['lat'] > y_ll) & (df_filtered['lat'] < y_ur) & (df_filtered['lon'] > x_ll) & (df_filtered['lon'] < x_ur)]
     filter_q = []
     for i in range(len(non_numerical_labels)):
         filter_col = labels_to_cols[non_numerical_labels[i]]
