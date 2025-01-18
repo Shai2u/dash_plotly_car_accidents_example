@@ -1,4 +1,4 @@
-# 11 Steps to build Dashboard with Dash-plotly and Dash-Leaflet Maps
+# 10 Steps to build Dashboard with Dash-plotly and Dash-Leaflet Maps
 
 In this post, I’ll walk you through building a dashboard with a map step by step, using Dash-Plotly and Dash-Leaflet. Whether you’re a beginner/intermediate data scientist or transitioning a GIS analyst with data science tools, this guide will help you explore how to combine interactive visualizations with geographic data in a user-friendly interface.
 
@@ -42,13 +42,12 @@ Here is the breakdown of the steps:
 7.	Unify Styling: Match the styles of the graph and map components for a cohesive design.
 8.	Add Cluster Layers: Include clustering functionality on the environment map.
 
-#### Part 4. enabling interacitivy between the map and the other component of the dashboard
-9. Filter Data to the Map: Allow filters to modify the content on the map dynamically.
-10.	Filter by viewport: Enable interactions where data displayed  on the map viewports updates the graphs, and vice versa.
+#### Part 4. Enabling interacitivy between the map and the other component of the dashboard
+9. 	Filter by viewport: Enable interactions where data displayed  on the map viewports updates the graphs, and vice versa.
 
 
 #### Part 5. Fine tuning the style using CSS
-11.	Enhance Visual Design: Use CSS to refine the map’s appearance and overall dashboard aesthetics.
+10.	Enhance Visual Design: Use CSS to refine the map’s appearance and overall dashboard aesthetics.
 
 
 The following gif animation displays (more-less) the different steps described above.
