@@ -1,4 +1,4 @@
-# Building a Dashboard with a Map: Step-by-Step Using Dash-Plotly and Dash-Leaflet
+# 11 Steps to build Dashboard with Dash-plotly and Dash-Leaflet Maps
 
 In this post, I’ll walk you through building a dashboard with a map step by step, using Dash-Plotly and Dash-Leaflet. Whether you’re a beginner/intermediate data scientist or transitioning a GIS analyst with data science tools, this guide will help you explore how to combine interactive visualizations with geographic data in a user-friendly interface.
 
