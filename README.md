@@ -1869,3 +1869,8 @@ if __name__ == "__main__":
 </details>
 
 ![Match the styles of the graph and map components](./media/step_6_color_match.gif)
+
+
+## in conclusion
+
+In my opinion, Dash-plotly serves in the sweet spot betweet quick dashboards that can be created using BI apps (tableua, pwoerBI), and advance complex web-apps that can be created using React. In with it comes it charm, it enables to create simple web-apps or sophisticated dashbaord relativly with ease. It's a great way to transmit ideas or portotype by data scientist and GIS anlyst who want to transition to Data Science. In this long post we went quickly reviewd 11 steps in creating not a basic geo-dashboard, from inital sketching, to placeholding, adding callbacks, adding geogrpqahic elements and finally we styled the dashbarod using css. In addition we reviewd a couple of tricks and work arounds. Since this article was long enough we couldn't get in deapth for each of the steps, it is for you to experiment and keep on learning. I see this tutorial as a template starting point for thsoe who want to get up and running with a geogrpahic dahshboard. I would love to hear about your implementaitons ideas and suggestions down here in the comments.
