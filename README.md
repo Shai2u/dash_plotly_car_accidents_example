@@ -2675,6 +2675,7 @@ if __name__ == "__main__":
     app.run(debug=True)
 ```
 </details>
+
 ![Step 9. Filter by viewport](./media/step_9_fitler_by_map_viewport.gif)
 
 # Conclusion
