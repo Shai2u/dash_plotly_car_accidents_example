@@ -41,22 +41,48 @@ monthly_accidents = df.groupby(
 gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df.lon, df.lat))
 gdf['active_col'] = 'HUMRAT_TEUNA'
 points_geojson = gdf.__geo_interface__
+# JavaScript function to assign tooltip to each feature
+def assign_on_each_feature():
+    """
+    Creates a JavaScript function to bind a tooltip to each feature in a map layer.
 
+    The tooltip displays the `HODESH_TEUNA` property and the value of the property
+    specified by `active_col` for each feature.
 
+    Returns
+    -------
+    on_each_feature : str
+        A string containing the JavaScript function to be used for binding tooltips.
+    """
+    on_each_feature = assign("""function(feature, layer, context){
+        layer.bindTooltip(`${feature.properties.HODESH_TEUNA} (${feature.properties[feature.properties.active_col]})`)
+    }""")
+    return on_each_feature
+
+# JavaScript function to assign point to layer with specific color
 def assign_point_to_layer():
+    """
+    Creates a JavaScript function to assign a point to a layer with a specific color.
+
+    The function uses the `active_col` property and the `color_dict` from the context's hideout
+    to determine the fill color of the circle marker.
+
+    Returns
+    -------
+    str
+        A string containing the JavaScript function to be used for assigning points to layers.
+    """
     point_to_layer = assign("""function(feature, latlng, context){
-    const {circleOptions} = context.hideout;
-    return L.circleMarker(latlng, circleOptions);  // render a simple circle marker
+        const {active_col, circleOptions, color_dict} = context.hideout;
+        const active_col_val  = feature.properties[active_col];
+        circleOptions.fillColor = color_dict[active_col][active_col_val];
+        return L.circleMarker(latlng, circleOptions);  // render a simple circle marker
     }""")
     return point_to_layer
-def assign_on_each_feature():
-    on_each_feature = assign("""function(feature, layer, context){
-        layer.bindTooltip(`${feature.properties.HODESH_TEUNA} (${feature.properties.SUG_DEREH})`)
-    }""")
 
 
 # Function to generate bar graph
-def graph_generator(df, x_col, color_stack_col):
+def graph_generator(df, x_col, color_stack_col, **kwargs):
     """
     Generates a bar graph using Plotly based on the provided DataFrame.
 
@@ -82,7 +108,12 @@ def graph_generator(df, x_col, color_stack_col):
     - The layout of the figure is customized to have no margins and a fixed height of 400.
     """
     gb_df = df.groupby([x_col, color_stack_col]).size().reset_index(name='count')
-    fig = px.bar(gb_df, x=x_col, y='count', color=color_stack_col, template='plotly_white')
+    if 'col_values_color' in kwargs:
+        col_values_color_dict = kwargs['col_values_color']
+        fig = px.bar(gb_df, x=x_col, y='count', color=color_stack_col,color_discrete_map = col_values_color_dict[color_stack_col], template='plotly_white')
+    else:
+        fig = px.bar(gb_df, x=x_col, y='count', color=color_stack_col, template='plotly_white')
+
     fig.update_layout(xaxis={'tickmode': 'linear'}, margin={'l': 0, 'r': 0, 't': 25, 'b': 25}, height=400)
     fig.update_xaxes(title_text=cols_to_labels[x_col])
     fig.update_yaxes(title_text='Number of Accidents')
@@ -120,9 +151,21 @@ def empty_graph():
         height=300
     )
     return fig
-fig = graph_generator(df, x_col='HODESH_TEUNA', color_stack_col='HUMRAT_TEUNA')
-hide_out_dict = {'circleOptions': {'radius': 5, 'fillColor': 'blue','fillOpacity': 1, 'stroke':False,}}
+# Initialize color-discrete-map for graphs
+col_values_color = {}
+for col in columns_for_graph:
+    if col != 'HODESH_TEUNA':
+        fig = graph_generator(df, x_col='HODESH_TEUNA', color_stack_col=col)
+        col_values_color[col] = {item['name']: item['marker']['color'] for item in fig.to_dict()['data']}
 
+
+fig = graph_generator(df, x_col='HODESH_TEUNA', color_stack_col='HUMRAT_TEUNA', col_values_color=col_values_color)
+# Hideout dictionary for map
+hide_out_dict = {
+    'active_col': 'HUMRAT_TEUNA', 
+    'circleOptions': {'fillOpacity': 1, 'stroke': False, 'radius': 3.5},
+    'color_dict': col_values_color
+}
 dah_main_map = dl.Map([
                     dl.TileLayer(
                         url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'),
@@ -253,6 +296,8 @@ filter_5_values : list
     The values selected in the fifth filter checklist.
 filter_6_values : list
     The values selected in the sixth filter checklist.
+hideout : dict
+    The hideout data from the lines_geojson.
 
 Returns
 -------
@@ -267,6 +312,8 @@ hideout : dict
 """
 @app.callback(
     Output('contextual_graph', 'figure'),
+    Output('lines_geojson', 'data'),
+    Output('lines_geojson', 'hideout'),
     Input('x_axis_dropdown', 'value'),
     Input('color_stack_dropdown', 'value'),
     Input('filter_1_checklist', 'value'),
@@ -275,24 +322,30 @@ hideout : dict
     Input('filter_4_checklist', 'value'),
     Input('filter_5_checklist', 'value'),
     Input('filter_6_checklist', 'value'),
+    Input('main_map', 'bounds'),
+    Input('lines_geojson', 'hideout'),
+
 )
-    
-def update_contextual_graph_map(x_axis, color_stack, filter_1_values, filter_2_values, filter_3_values, filter_4_values, filter_5_values, filter_6_values):
+def update_contextual_graph_map(x_axis, color_stack, filter_1_values, filter_2_values, filter_3_values, filter_4_values, filter_5_values, filter_6_values, map_bounds, hideout):
     df_filtered = df.copy()
     filter_q = []
-    for i, title in enumerate(non_numerical_labels):
-        filter_col = labels_to_cols[title]
+    for i in range(len(non_numerical_labels)):
+        filter_col = labels_to_cols[non_numerical_labels[i]]
         filter_values = eval(f'filter_{i+1}_values')
         if i == 0:
             filter_q = df_filtered[filter_col].isin(filter_values).values
         else:
             filter_q = filter_q & df_filtered[filter_col].isin(filter_values).values
     df_filtered = df_filtered[filter_q]
+    gdf_copy = gdf.loc[gdf['pk_teuna_fikt'].isin(df_filtered['pk_teuna_fikt'])].copy()
+    gdf_copy['active_col'] = labels_to_cols[color_stack]
+    points_geojson = gdf_copy.__geo_interface__
+    hideout['active_col'] = labels_to_cols[color_stack]
     if x_axis != color_stack:
-        fig = graph_generator(df_filtered, x_col=labels_to_cols[x_axis], color_stack_col=labels_to_cols[color_stack])
+        fig = graph_generator(df_filtered, x_col=labels_to_cols[x_axis], color_stack_col=labels_to_cols[color_stack], col_values_color=col_values_color)
     else:
         fig = empty_graph()
-    return fig
+    return fig, points_geojson, hideout
 
 
 """
