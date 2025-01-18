@@ -1267,7 +1267,7 @@ dah_main_map = dl.Map([
                     dl.TileLayer(
                         url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'),
                      dl.GeoJSON(
-                        id='lines_geojson', data=points_geojson,
+                        id='points_geojson', data=points_geojson,
                         pointToLayer=assign_point_to_layer(),  # how to draw points
                         onEachFeature=assign_on_each_feature(),  # add (custom) tooltip
                         hideout=hide_out_dict,
@@ -1660,7 +1660,7 @@ dah_main_map = dl.Map([
                     dl.TileLayer(
                         url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'),
                      dl.GeoJSON(
-                        id='lines_geojson', data=points_geojson,
+                        id='points_geojson', data=points_geojson,
                         pointToLayer=assign_point_to_layer(),  # how to draw points
                         onEachFeature=assign_on_each_feature(),  # add (custom) tooltip
                         hideout=hide_out_dict,
@@ -1787,7 +1787,7 @@ filter_5_values : list
 filter_6_values : list
     The values selected in the sixth filter checklist.
 hideout : dict
-    The hideout data from the lines_geojson.
+    The hideout data from the points_geojson.
 
 Returns
 -------
@@ -1802,8 +1802,8 @@ hideout : dict
 """
 @app.callback(
     Output('contextual_graph', 'figure'),
-    Output('lines_geojson', 'data'),
-    Output('lines_geojson', 'hideout'),
+    Output('points_geojson', 'data'),
+    Output('points_geojson', 'hideout'),
     Input('x_axis_dropdown', 'value'),
     Input('color_stack_dropdown', 'value'),
     Input('filter_1_checklist', 'value'),
@@ -1813,7 +1813,7 @@ hideout : dict
     Input('filter_5_checklist', 'value'),
     Input('filter_6_checklist', 'value'),
     Input('main_map', 'bounds'),
-    Input('lines_geojson', 'hideout'),
+    Input('points_geojson', 'hideout'),
 
 )
 def update_contextual_graph_map(x_axis, color_stack, filter_1_values, filter_2_values, filter_3_values, filter_4_values, filter_5_values, filter_6_values, map_bounds, hideout):
