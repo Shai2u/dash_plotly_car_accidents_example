@@ -33,7 +33,7 @@ for col in non_numerical_columns:
     col_unique_values_dict[col] = df[col].unique().tolist()
     labels_unique_values_dict[cols_to_labels[col]
                               ] = col_unique_values_dict[col]
-    
+
 
 monthly_accidents = df.groupby(
     ['HODESH_TEUNA', 'HUMRAT_TEUNA']).size().reset_index(name='count')
@@ -43,6 +43,8 @@ gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df.lon, df.lat))
 gdf['active_col'] = 'HUMRAT_TEUNA'
 points_geojson = gdf.__geo_interface__
 # JavaScript function to assign tooltip to each feature
+
+
 def assign_on_each_feature():
     """
     Creates a JavaScript function to bind a tooltip to each feature in a map layer.
@@ -61,6 +63,8 @@ def assign_on_each_feature():
     return on_each_feature
 
 # JavaScript function to assign point to layer with specific color
+
+
 def assign_point_to_layer():
     """
     Creates a JavaScript function to assign a point to a layer with a specific color.
@@ -81,12 +85,15 @@ def assign_point_to_layer():
     }""")
     return point_to_layer
 
+
 # Hide points that are out of the range in the search clsuter (env_map)
 point_to_layer_hide = assign("""function(feature, latlng, context){
     circleOptions = {fillOpacity: 0, stroke: false, radius: 0};
     return L.circleMarker(latlng, circleOptions);  // render a simple circle marker
 }""")
 # Function to generate bar graph
+
+
 def graph_generator(df, x_col, color_stack_col, **kwargs):
     """
     Generates a bar graph using Plotly based on the provided DataFrame.
@@ -112,27 +119,35 @@ def graph_generator(df, x_col, color_stack_col, **kwargs):
     - The legend title is also updated based on the `cols_to_labels` dictionary.
     - The layout of the figure is customized to have no margins and a fixed height of 400.
     """
-    gb_df = df.groupby([x_col, color_stack_col]).size().reset_index(name='count')
+    gb_df = df.groupby([x_col, color_stack_col]
+                       ).size().reset_index(name='count')
     if 'col_values_color' in kwargs:
         col_values_color_dict = kwargs['col_values_color']
-        fig = px.bar(gb_df, x=x_col, y='count', color=color_stack_col,color_discrete_map = col_values_color_dict[color_stack_col], template='plotly_white')
+        fig = px.bar(gb_df, x=x_col, y='count', color=color_stack_col,
+                     color_discrete_map=col_values_color_dict[color_stack_col], template='plotly_white')
     else:
-        fig = px.bar(gb_df, x=x_col, y='count', color=color_stack_col, template='plotly_white')
+        fig = px.bar(gb_df, x=x_col, y='count',
+                     color=color_stack_col, template='plotly_white')
 
-    fig.update_layout(xaxis={'tickmode': 'linear'}, margin={'l': 0, 'r': 0, 't': 25, 'b': 25}, height=400)
+    fig.update_layout(xaxis={'tickmode': 'linear'}, margin={
+                      'l': 0, 'r': 0, 't': 25, 'b': 25}, height=400)
     fig.update_xaxes(title_text=cols_to_labels[x_col])
     fig.update_yaxes(title_text='Number of Accidents')
     fig.update_layout(legend_title_text=cols_to_labels[color_stack_col])
     return fig
+
 
 # Initialize color dictionary for graphs
 col_values_color = {}
 for col in columns_for_graph:
     if col != 'HODESH_TEUNA':
         fig = graph_generator(df, x_col='HODESH_TEUNA', color_stack_col=col)
-        col_values_color[col] = {item['name']: item['marker']['color'] for item in fig.to_dict()['data']}
+        col_values_color[col] = {
+            item['name']: item['marker']['color'] for item in fig.to_dict()['data']}
 
 # Function to generate an empty graph with a message
+
+
 def empty_graph():
     """
     Create an empty scatter plot with an annotation.
@@ -162,75 +177,86 @@ def empty_graph():
         height=300
     )
     return fig
+
+
 # Initialize color-discrete-map for graphs
 col_values_color = {}
 for col in columns_for_graph:
     if col != 'HODESH_TEUNA':
         fig = graph_generator(df, x_col='HODESH_TEUNA', color_stack_col=col)
-        col_values_color[col] = {item['name']: item['marker']['color'] for item in fig.to_dict()['data']}
+        col_values_color[col] = {
+            item['name']: item['marker']['color'] for item in fig.to_dict()['data']}
 
 
-fig = graph_generator(df, x_col='HODESH_TEUNA', color_stack_col='HUMRAT_TEUNA', col_values_color=col_values_color)
+fig = graph_generator(df, x_col='HODESH_TEUNA',
+                      color_stack_col='HUMRAT_TEUNA', col_values_color=col_values_color)
 # Hideout dictionary for map
 hide_out_dict = {
-    'active_col': 'HUMRAT_TEUNA', 
+    'active_col': 'HUMRAT_TEUNA',
     'circleOptions': {'fillOpacity': 1, 'stroke': False, 'radius': 3.5},
     'color_dict': col_values_color
 }
 # Main map Componenet
 dah_main_map = dl.Map([
-                    dl.TileLayer(
-                        url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'),
-                     dl.GeoJSON(
-                        id='points_geojson', data=points_geojson,
-                        pointToLayer=assign_point_to_layer(),  # how to draw points
-                        onEachFeature=assign_on_each_feature(),  # add (custom) tooltip
-                        hideout=hide_out_dict,
-                     ),
-                    dl.LocateControl(
-                        locateOptions={'enableHighAccuracy': True})
-                ],
-                    center=[32, 34.9],
-                    zoom=12,
-                    style={'height': '76vh'},
-                    id='main_map',
-                    dragging=True,
-                    zoomControl=True,
-                    scrollWheelZoom=True,
-                    doubleClickZoom=True,
-                    boxZoom=True,
-                )
+    dl.TileLayer(
+        url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'),
+    dl.GeoJSON(
+        id='points_geojson', data=points_geojson,
+        pointToLayer=assign_point_to_layer(),  # how to draw points
+        onEachFeature=assign_on_each_feature(),  # add (custom) tooltip
+        hideout=hide_out_dict,
+    ),
+    dl.LocateControl(
+        locateOptions={'enableHighAccuracy': True})
+],
+    center=[32, 34.9],
+    zoom=12,
+    style={'height': '76vh'},
+    id='main_map',
+    dragging=True,
+    zoomControl=True,
+    scrollWheelZoom=True,
+    doubleClickZoom=True,
+    boxZoom=True,
+)
 
 # Environmental Map Component
 dash_env_map = dl.Map([
-                    dl.TileLayer(
-                        url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'),
-                    dl.GeoJSON(id='points_env_geojson', data=points_geojson, cluster=True, superClusterOptions={'radius': 125}, pointToLayer=point_to_layer_hide),  # hide remaining  points
+    dl.TileLayer(
+        url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'),
+    dl.GeoJSON(id='points_env_geojson', data=points_geojson, cluster=True, superClusterOptions={
+               'radius': 125}, pointToLayer=point_to_layer_hide),  # hide remaining  points
 
-                    dl.Polygon(positions=[], id='env_map_bb_polygon', color='red', fillOpacity=0)
+    dl.Polygon(positions=[], id='env_map_bb_polygon',
+               color='red', fillOpacity=0)
 
-                ],
-                    center=[32, 34.9],
-                    zoom=8,
-                        style={'height': '37vh'},
-                    id='env_map',
-                    dragging=False,
-                    zoomControl=False,
-                    scrollWheelZoom=False,
-                    doubleClickZoom=False,
-                    boxZoom=False,
-                )
+],
+    center=[32, 34.9],
+    zoom=8,
+    style={'height': '37vh'},
+    id='env_map',
+    dragging=False,
+    zoomControl=False,
+    scrollWheelZoom=False,
+    doubleClickZoom=False,
+    boxZoom=False,
+)
 
 # Function to generate bounding box from bounds
-generate_bounds = lambda b: [[b[0][0], b[0][1]], [b[1][0], b[0][1]], [b[1][0], b[1][1]], [b[0][0], b[1][1]]]
+
+
+def generate_bounds(b): return [[b[0][0], b[0][1]], [b[1][0], b[0][1]], [
+    b[1][0], b[1][1]], [b[0][0], b[1][1]]]
+
 
 # Populate filter divs
 list_filter_divs = []
 for i, title in enumerate(non_numerical_labels):
     new_filter_div = html.Div(html.Div([
         html.B(title),
-        dcc.Checklist(labels_unique_values_dict[title], labels_unique_values_dict[title], id=f'filter_{i+1}_checklist', className="filter-title")
-    ]), className="div-card", style={ 'flex': '1', 'textAlign': 'left'})
+        dcc.Checklist(labels_unique_values_dict[title], labels_unique_values_dict[title], id=f'filter_{
+                      i+1}_checklist', className="filter-title")
+    ]), className="div-card", style={'flex': '1', 'textAlign': 'left'})
     list_filter_divs.append(new_filter_div)
 
 app = Dash()
@@ -251,24 +277,24 @@ app.layout = html.Div(
     children=[
         html.Div(
             html.Div(
-                html.H1('Car Accidents in Israel 2023'),className="div-card",
+                html.H1('Car Accidents in Israel 2023'), className="div-card",
                 style={
-                'textAlign': 'center',
-                'display': 'flex',
-                'flexDirection': 'column',
-                'justifyContent': 'center',
-                'width':'100%',
-            }
-            ), style = {'display': 'flex', 'height': '250px',  'justifyContent': 'center'}
+                    'textAlign': 'center',
+                    'display': 'flex',
+                    'flexDirection': 'column',
+                    'justifyContent': 'center',
+                    'width': '100%',
+                }
+            ), style={'display': 'flex', 'height': '250px',  'justifyContent': 'center'}
         ),
         # Filters Section
         html.Div(
             list_filter_divs,
-            style={'display': 'flex','gridColumn': 'span 2', 'height': '250px'}),
+            style={'display': 'flex', 'gridColumn': 'span 2', 'height': '250px'}),
         # Main Map Div
         html.Div(html.Div(
-            dah_main_map            
-        ),className="div-card",style={'gridColumn': 'span 2', 'gridRow': 'span 2'}),
+            dah_main_map
+        ), className="div-card", style={'gridColumn': 'span 2', 'gridRow': 'span 2'}),
         # Contextual Graph Div
 
         html.Div([html.Div(
@@ -278,20 +304,21 @@ app.layout = html.Div(
                     [
                         html.Div(html.Div([
                             'X-axis:',
-                            dcc.Dropdown(labels_for_graph,labels_for_graph[-1], id='x_axis_dropdown')]),
+                            dcc.Dropdown(labels_for_graph, labels_for_graph[-1], id='x_axis_dropdown')]),
                             style={'flex': '1', 'textAlign': 'left'}),
                         html.Div(html.Div(
                             ['Color Stack:',
-                            dcc.Dropdown(labels_for_graph, labels_for_graph[-3], id='color_stack_dropdown')]
-                        ),style={'flex': '1', 'textAlign': 'left'})
+                             dcc.Dropdown(labels_for_graph, labels_for_graph[-3], id='color_stack_dropdown')]
+                        ), style={'flex': '1', 'textAlign': 'left'})
                     ],
                     style={'display': 'flex'}
                 ),
                 dcc.Checklist(['Filter Map-view'], id="filter_map_view"),
             ], className="div-card"
         ),
-        html.Div(html.Div(dash_env_map,className="div-card", style={'verticalAlign': 'top'}))
-        ],  style ={'height': '100%'})
+            html.Div(html.Div(dash_env_map, className="div-card",
+                     style={'verticalAlign': 'top'}))
+        ],  style={'height': '100%'})
     ]
 )
 
@@ -336,6 +363,8 @@ points_geojson : dict
 hideout : dict
     The updated hideout parameters.
 """
+
+
 @app.callback(
     Output('contextual_graph', 'figure'),
     Output('points_geojson', 'data'),
@@ -353,14 +382,14 @@ hideout : dict
     Input('main_map', 'bounds'),
     Input('points_geojson', 'hideout'),
 )
-    
 def update_contextual_graph_map(x_axis, color_stack, filter_1_values, filter_2_values, filter_3_values, filter_4_values, filter_5_values, filter_6_values, filter_boudns, map_bounds, hideout):
     df_filtered = df.copy()
     if (filter_boudns not in [None, []]) and (map_bounds is not None):
         ll, ur = map_bounds
         y_ll, x_ll = ll
         y_ur, x_ur = ur
-        df_filtered = df_filtered[(df_filtered['lat'] > y_ll) & (df_filtered['lat'] < y_ur) & (df_filtered['lon'] > x_ll) & (df_filtered['lon'] < x_ur)]
+        df_filtered = df_filtered[(df_filtered['lat'] > y_ll) & (df_filtered['lat'] < y_ur) & (
+            df_filtered['lon'] > x_ll) & (df_filtered['lon'] < x_ur)]
     filter_q = []
     for i in range(len(non_numerical_labels)):
         filter_col = labels_to_cols[non_numerical_labels[i]]
@@ -368,14 +397,17 @@ def update_contextual_graph_map(x_axis, color_stack, filter_1_values, filter_2_v
         if i == 0:
             filter_q = df_filtered[filter_col].isin(filter_values).values
         else:
-            filter_q = filter_q & df_filtered[filter_col].isin(filter_values).values
+            filter_q = filter_q & df_filtered[filter_col].isin(
+                filter_values).values
     df_filtered = df_filtered[filter_q]
-    gdf_copy = gdf.loc[gdf['pk_teuna_fikt'].isin(df_filtered['pk_teuna_fikt'])].copy()
+    gdf_copy = gdf.loc[gdf['pk_teuna_fikt'].isin(
+        df_filtered['pk_teuna_fikt'])].copy()
     gdf_copy['active_col'] = labels_to_cols[color_stack]
     points_geojson = gdf_copy.__geo_interface__
     hideout['active_col'] = labels_to_cols[color_stack]
     if x_axis != color_stack:
-        fig = graph_generator(df_filtered, x_col=labels_to_cols[x_axis], color_stack_col=labels_to_cols[color_stack], col_values_color = col_values_color)
+        fig = graph_generator(
+            df_filtered, x_col=labels_to_cols[x_axis], color_stack_col=labels_to_cols[color_stack], col_values_color=col_values_color)
     else:
         fig = empty_graph()
     return fig, points_geojson, points_geojson, hideout
@@ -395,14 +427,17 @@ list of list of float
     The positions of the bounding box polygon in the format [[lat1, lng1], [lat2, lng2], [lat3, lng3], [lat4, lng4]].
     If bounds is None, returns an empty list.
 """
+
+
 @app.callback(
     Output('env_map_bb_polygon', 'positions'),
-     Input('main_map', 'bounds')
+    Input('main_map', 'bounds')
 )
-def update_env_map_center(bounds ):
+def update_env_map_center(bounds):
     if bounds is None:
         return generate_bounds([[31.857, 34.652], [32.142, 35.148]])
     return generate_bounds(bounds)
+
 
 if __name__ == "__main__":
     app.run(debug=False)
