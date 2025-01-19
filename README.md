@@ -3213,12 +3213,18 @@ blockquote {
 ```
 
 </details>
+
+![Final result dashboard](./media/final_result.gif)
+
 # Conclusion
 
-In my opinion, Dash-plotly serves in the sweet spot betweet quick dashboards that can be created using BI apps (tableua, pwoerBI), and advance complex web-apps that can be created using React. In with it comes it charm, it enables to create simple web-apps or sophisticated dashbaord relativly with ease. It's a great way to transmit ideas or portotype by data scientist and GIS anlyst who want to transition to Data Science. In this long post we went quickly reviewd 11 steps in creating not a basic geo-dashboard, from inital sketching, to placeholding, adding callbacks, adding geogrpqahic elements and finally we styled the dashbarod using css. In addition we reviewd a couple of tricks and work arounds. Since this article was long enough we couldn't get in deapth for each of the steps, it is for you to experiment and keep on learning. I see this tutorial as a template starting point for thsoe who want to get up and running with a geogrpahic dahshboard. 
+In my opinion, Dash-Plotly is placed in a sweet spot between BI tools like Tableau or Power BI and advanced, complex web application frameworks like React. This balance is part of its charm. Dash-Plotly makes it relatively easy to create anything from simple web apps to sophisticated dashboards. It’s an excellent tool for data scientists and GIS analysts who want to transition to Data Scientist.
 
-Another take-away that I took from making this blog-post is the importance of dealing with complex code. When I first started to make dashbaords in dash-plotly I always found myself strugeling with long combersome code. When strugeling with complex projects, we should follow a couple of tips
-1. Break the project to simple actionalbe and small steps, and when implementing try to deal with solvin one issue at a time
-2. Try to implement a quick solution first, only after we got the solution working we can think about efficency or refactorign the code.
+In this comprehensive post, we reviewed 10 steps to create a geo-dashboard that goes beyond the basics. We covered topics from initial sketching to placeholder elements, adding callbacks, incorporating geographic features, and finally styling the dashboard with CSS. Along the way, we explored some useful tricks and workarounds. Since this post is already quite lengthy, we couldn’t delve deeply into each step, leaving it to you to experiment and continue learning. I see this tutorial as a foundational template for anyone looking to get started with creating a geographic dashboard.
 
-I would love to hear about your implementaitons ideas and suggestions down here in the comments.
+One key takeaway from creating this blog post is the importance of managing complex code. When I first started building dashboards with Dash-Plotly, I often struggled with long, cumbersome codebases. Tackling complex projects requires some essential strategies:
+	1.	Break the project into simple, actionable, and manageable steps. Focus on solving one issue at a time during implementation.
+	2.	Start with a quick solution. Get the solution working first, then consider improving efficiency or refactoring the code.
+
+I would love to hear about your implementation ideas and suggestions in the comments below!
+
