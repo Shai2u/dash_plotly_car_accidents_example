@@ -192,7 +192,7 @@ dah_main_map = dl.Map([
                 ],
                     center=[32, 34.9],
                     zoom=12,
-                    style={'height': '75vh'},
+                    style={'height': '76vh'},
                     id='main_map',
                     dragging=True,
                     zoomControl=True,
@@ -212,7 +212,7 @@ dash_env_map = dl.Map([
                 ],
                     center=[32, 34.9],
                     zoom=8,
-                        style={'height': '40vh'},
+                        style={'height': '37vh'},
                     id='env_map',
                     dragging=False,
                     zoomControl=False,
@@ -227,10 +227,10 @@ generate_bounds = lambda b: [[b[0][0], b[0][1]], [b[1][0], b[0][1]], [b[1][0], b
 # Populate filter divs
 list_filter_divs = []
 for i, title in enumerate(non_numerical_labels):
-    new_filter_div = html.Div([
+    new_filter_div = html.Div(html.Div([
         html.B(title),
-        dcc.Checklist(labels_unique_values_dict[title], labels_unique_values_dict[title], id=f'filter_{i+1}_checklist')
-    ], className="div-card", style={ 'flex': '1', 'textAlign': 'left'})
+        dcc.Checklist(labels_unique_values_dict[title], labels_unique_values_dict[title], id=f'filter_{i+1}_checklist', className="filter-title")
+    ]), className="div-card", style={ 'flex': '1', 'textAlign': 'left'})
     list_filter_divs.append(new_filter_div)
 
 app = Dash()
@@ -241,15 +241,14 @@ app.layout = html.Div(
     style={
         'display': 'grid',
         'gridTemplateColumns': '33% 33% 33%',
-        'gridTemplateRows': '26% 37% 37%',
+        'gridTemplateRows': '20% 40% 40%',
         'gap': '10px',
-        'height': '100vh',
+        'height': '95vh',
         'width': '100vw',
         'alignItems': 'center'
     },
+
     children=[
-
-
         html.Div(
             html.Div(
                 html.H1('Car Accidents in Israel 2023'),className="div-card",
@@ -265,37 +264,34 @@ app.layout = html.Div(
         # Filters Section
         html.Div(
             list_filter_divs,
-            style={'display': 'flex','gridColumn': 'span 2', 'height': '250px'},
-                            ),
+            style={'display': 'flex','gridColumn': 'span 2', 'height': '250px'}),
         # Main Map Div
-        html.Div(
-            dah_main_map,
-            className="div-card",
-            style={'gridColumn': 'span 2', 'gridRow': 'span 2'}
-        ),
+        html.Div(html.Div(
+            dah_main_map            
+        ),className="div-card",style={'gridColumn': 'span 2', 'gridRow': 'span 2'}),
         # Contextual Graph Div
-        html.Div(
+
+        html.Div([html.Div(
             [
                 dcc.Graph(figure=fig, id='contextual_graph'),
                 html.Div(
                     [
-                        html.Div([
+                        html.Div(html.Div([
                             'X-axis:',
-                            dcc.Dropdown(labels_for_graph,labels_for_graph[-1], id='x_axis_dropdown')],
-                            style={'flex': '1', 'textAlign': 'left'}
-                        ),
-                        html.Div(
+                            dcc.Dropdown(labels_for_graph,labels_for_graph[-1], id='x_axis_dropdown')]),
+                            style={'flex': '1', 'textAlign': 'left'}),
+                        html.Div(html.Div(
                             ['Color Stack:',
-                            dcc.Dropdown(labels_for_graph, labels_for_graph[-3], id='color_stack_dropdown')],
-                            style={'flex': '1', 'textAlign': 'left'}
-                        )
+                            dcc.Dropdown(labels_for_graph, labels_for_graph[-3], id='color_stack_dropdown')]
+                        ),style={'flex': '1', 'textAlign': 'left'})
                     ],
                     style={'display': 'flex'}
                 ),
                 dcc.Checklist(['Filter Map-view'], id="filter_map_view"),
             ], className="div-card"
         ),
-        html.Div(dash_env_map, className="div-card", style={'alignItems': 'center', 'textAlign':'center'})
+        html.Div(html.Div(dash_env_map,className="div-card", style={'verticalAlign': 'top'}))
+        ],  style ={'height': '100%'})
     ]
 )
 
