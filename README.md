@@ -37,12 +37,12 @@ Here is the breakdown of the steps:
 4.	Introduce Interactivity: Add initial callbacks to enable basic interaction between components.
 
 #### Part 3. Setting up the map
-5.	Enabled Environment Map: the environment map displays the boundig box of the main-maps viewport.
+5.	Enabled Environment Map: the environment map displays the bounding box of the main-maps viewport.
 6.  Load Geographic Data: Integrate geographic data into the map.
 7.	Unify Styling: Match the styles of the graph and map components for a cohesive design.
 8.	Add Cluster Layers: Include clustering functionality on the environment map.
 
-#### Part 4. Enabling interacitivy between the map and the other component of the dashboard
+#### Part 4. Enabling interacitivy between the map and the other components of the dashboard
 9. 	Filter by viewport: Enable interactions where data displayed  on the map viewports updates the graphs, and vice versa.
 
 
