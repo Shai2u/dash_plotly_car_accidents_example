@@ -32,7 +32,7 @@ Here is the breakdown of the steps:
 1.	Sketch the Dashboard Concept: Start by sketching what you want the dashboard to showcase.
 2.	Add Static Elements: Place static Plotly elements in the layout as placeholders.
 
-#### Part 2. Data Driven conent
+#### Part 2. Data Driven content
 3.	Replace Static Elements: Exchange the static Plotly elements with data-driven plotly components from the dataset.
 4.	Introduce Interactivity: Add initial callbacks to enable basic interaction between components.
 
