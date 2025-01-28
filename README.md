@@ -1,9 +1,9 @@
 # 10 Steps to build Dashboard with Dash-plotly and Dash-Leaflet Maps
 
-In this post, I’ll walk you through building a dashboard with a map step by step, using Dash-Plotly and Dash-Leaflet. Whether you’re a beginner/intermediate data scientist or transitioning GIS analyst with data science tools, this guide will help you explore how to combine interactive visualizations with geographic data in a user-friendly interface.
+In this post, I will walk you through building a dashboard with a map step by step, using Dash-Plotly and Dash-Leaflet. Whether you are a beginner/intermediate data scientist or transitioning GIS analyst with data science tools, this guide will help you explore how to combine interactive visualizations with geographic data in a user-friendly interface.
 
-Here’s what we’ll cover in this tutorial:
-1.	Building a Complex Dashboard Step by Step: Learn to create a functional, interactive dashboard by designing it from scratch. We’ll walk through adding elements step by step, implementing callback interactivity, and applying styling to make it polished and user-friendly.
+Here is what we wiil cover in this tutorial:
+1.	Building a Complex Dashboard Step by Step: Learn to create a functional, interactive dashboard by designing it from scratch. We will walkthrough adding elements step by step, implementing callback interactivity, and applying styling to make it polished and user-friendly.
 2.	Working with Geographic Data: Understand the basics of Dash-Leaflet for adding spatial data to your dashbaord.
 3.	Best Practices in Python: Incorporate good coding practices to make your dashboard maintainable and scalable.
 4.	Dash-Plotly Tricks: Simplify some challenging aspects of Dash-Plotly with helpful tips and techniques. 
@@ -12,7 +12,7 @@ The dashboard we’ll create will provide statistical insights and interactive m
 
 If you’re a data scientist exploring web technologies, Dash-Plotly offers a fantastic starting point for building interactive dashboards and applications. Dash-Plotly is essentially a Python framework built on React and Flask, combining frontend interactivity with Python’s simplicity. Here’s why it’s worth learning:
 1. HTML and CSS Basics: Dash uses common tags as in HTML, it's an opportunity to learn foundational web design concepts for structuring and styling web-apps.
-2. React Potential: Dash is a Python wrapper to React. Basicly it acts as a bridge to understanding React. You can quickly prototype ideas and later dive deeper into React’s capabilities.
+2. React Potential: Dash is a Python wrapper to React. It acts as a bridge to understanding React. You can quickly prototype ideas and later dive deeper into React’s capabilities.
 3. Flask Framework: Since Dash is built on Flask, it introduces you to one of Python’s most popular frameworks for creating APIs and integrating frontend and backend functionalities.
 4. Coding Practice: Unlike platforms like Tableau or Power BI, Dash requires you to code your dashboards, providing more flexibility and customization. However, this also means that your code can quickly become cumbersome and difficult to manage. Dash offers an opportunity to practice/learn writing clean, organized, and maintainable code—skills that are crucial for developing scalable and efficient applications.
 5. Deployment Opportunities: Dash applications can be deployed on platforms like AWS, Azure, or GCP, giving you hands-on experience in web deployment.
@@ -42,7 +42,7 @@ Here is the breakdown of the steps:
 7.	Unify Styling: Match the styles of the graph and map components for a cohesive design.
 8.	Add Cluster Layers: Include clustering functionality on the environment map.
 
-#### Part 4. Enabling interacitivy between the map and the other components of the dashboard
+#### Part 4. Enabling interactivity between the map and the other components of the dashboard
 9. 	Filter by viewport: Enable interactions where data displayed  on the map viewports updates the graphs, and vice versa.
 
 
@@ -53,8 +53,8 @@ Here is the breakdown of the steps:
 The following gif animation displays (more-less) the different steps described above.
 ![Dashboard Steps](./media/steps_animaiton.gif)
 
-The source of the data comes from accdients dataset From data.gov.il (Israel open source govemenral data website),
-The data has been processed and translated to enlgish in order to simplify the process.
+The source of the data comes from the accdients dataset at data.gov.il (Israel open source governmental data website),
+The data has been processed and translated to english in order to simplify the process.
 
 So without further due lets start learning how to build the dashboard step by step!
 
@@ -310,7 +310,7 @@ if __name__ == "__main__":
 
 # Data Driven Content
 
-## 3. Replace static elements with data-driven elemtns
+## 3. Replace static elements with data-driven elements
 
 In the following code, we replaced the static examples (e.g., New York City, Montréal) in the dropdown menu and checkbox data with dynamic values extracted from the CSV’s features. This step adds meaningful context to the dashboard. The code snippets below outline the process. In short, we extracted unique values for each column. Additionally, we performed other manipulations, such as wrapping some graph generators into methods for better reusability and organization.
 
@@ -790,7 +790,7 @@ if __name__ == "__main__":
 # Setting up the maps
 
 ## 5. Enabled Environment Map
-The environment map displays the boundig box of the main-maps viewport.
+The environment map displays the bounding box of the main-maps viewport.
 This section is where I, as a geospatial data scientist, differentiate this post from other "Dash-Plotly step-by-step tutorials". Here, we’ll begin adding interactivity and connectivity between the map widgets and the other components of the dashboard.
 
 We’ll start by creating an environment map. The environment map will display the bounds of the main map (the larger one on the left) within the smaller map on the right.
@@ -1871,7 +1871,7 @@ if __name__ == "__main__":
 
 ## 8. Add Cluster Layers to the Environmental map:
 The environment map shouldn’t be limited to orientation purposes; we can leverage it to display clustered aggregations. Here, I introduce the Leaflet MarkerCluster plugin, implemented in Dash-Leaflet. This plugin clusters multiple points together and represents them as a single marker displaying the total count, instead of individual points. This approach allows users to quickly understand the magnitude and density of incidents.
-The implementation is straightforward once you see it in the code. We need to add a GeoJSON layer to the environment map using the same data points as in the main map. Additionally, we mucan define the following parameters: ```cluster=True, superClusterOptions={'radius': 125}```, cluster will tell dash-leaflet that we want to cluster the points, and superClusterOptions defines the size in km radius how far we define a single clsuter. 
+The implementation is straightforward once you see it in the code. We need to add a GeoJSON layer to the environment map using the same data points as in the main map. Additionally, we can define the following parameters: ```cluster=True, superClusterOptions={'radius': 125}```, cluster will tell dash-leaflet that we want to cluster the points, and superClusterOptions defines the size in km radius how far we define a single cluster. 
 
 
 <details>
@@ -2269,7 +2269,7 @@ if __name__ == "__main__":
 
 ![Add Cluster Layer to Environment Map](./media/step_8_env_map_clusters.gif)
 
-# Enabling interacitivy between the map and the other component of the dashboard
+# Enabling interactivity between the map and the other component of the dashboard
 
 ## 9. 	Filter by viewport: Enable interactions where data displayed  on the map viewports updates the graphs, and vice versa.
 Before wrapping up, I’d like to add one more neat feature that will add a bit of complexity: filtering the data points to show only those visible within the main map’s viewport. In other words, if the main map displays 80 points, the statistics reflected in the bar graph will represent those same 80 points. However, since we may not always want to filter data based on the map’s viewport, we’ll provide this as an optional feature for the user. To achieve this, I’ve added a checkbox labeled “Filter Map View” on the right side of the dashboard.
@@ -3218,7 +3218,7 @@ blockquote {
 
 # Conclusion
 
-In my opinion, Dash-Plotly is placed in a sweet spot between BI tools like Tableau or Power BI and advanced, complex web application frameworks like React. This balance is part of its charm. Dash-Plotly makes it relatively easy to create anything from simple web apps to sophisticated dashboards. It’s an excellent tool for data scientists and GIS analysts who want to transition to Data Scientist.
+In my opinion, Dash-Plotly is positioned in a sweet spot between BI tools like Tableau or Power BI and advanced, complex web application frameworks like React. This balance is part of its charm. Dash-Plotly makes it relatively easy to create anything from simple web apps to sophisticated dashboards. It is an excellent tool for data scientists and GIS analysts who want to transition to Data Scientist.
 
 In this comprehensive post, we reviewed 10 steps to create a geo-dashboard that goes beyond the basics. We covered topics from initial sketching to placeholder elements, adding callbacks, incorporating geographic features, and finally styling the dashboard with CSS. Along the way, we explored some useful tricks and workarounds. Since this post is already quite lengthy, we couldn’t delve deeply into each step, leaving it to you to experiment and continue learning. I see this tutorial as a foundational template for anyone looking to get started with creating a geographic dashboard.
 
