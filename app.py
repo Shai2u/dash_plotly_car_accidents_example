@@ -260,6 +260,7 @@ for i, title in enumerate(non_numerical_labels):
     list_filter_divs.append(new_filter_div)
 
 app = Dash()
+server = app.server # Needed for render.com
 
 cell_style = {'padding': '10px', 'text-align': 'center'}
 # Set the layout right the first time!
