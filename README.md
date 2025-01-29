@@ -2,7 +2,7 @@
 
 In this post, I will walk you through building a dashboard with a map step by step, using Dash-Plotly and Dash-Leaflet. Whether you are a beginner/intermediate data scientist or transitioning GIS analyst with data science tools, this guide will help you explore how to combine interactive visualizations with geographic data in a user-friendly interface.
 
-Here is what we wiil cover in this tutorial:
+Here is what we will cover in this tutorial:
 1.	Building a Complex Dashboard Step by Step: Learn to create a functional, interactive dashboard by designing it from scratch. We will walkthrough adding elements step by step, implementing callback interactivity, and applying styling to make it polished and user-friendly.
 2.	Working with Geographic Data: Understand the basics of Dash-Leaflet for adding spatial data to your dashbaord.
 3.	Best Practices in Python: Incorporate good coding practices to make your dashboard maintainable and scalable.
