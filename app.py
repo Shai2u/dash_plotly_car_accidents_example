@@ -254,8 +254,7 @@ list_filter_divs = []
 for i, title in enumerate(non_numerical_labels):
     new_filter_div = html.Div(html.Div([
         html.B(title),
-        dcc.Checklist(labels_unique_values_dict[title], labels_unique_values_dict[title], id=f'filter_{
-                      i+1}_checklist', className="filter-title")
+        dcc.Checklist(labels_unique_values_dict[title], labels_unique_values_dict[title], id=f'filter_{i+1}_checklist', className="filter-title")
     ]), className="div-card", style={'flex': '1', 'textAlign': 'left'})
     list_filter_divs.append(new_filter_div)
 
