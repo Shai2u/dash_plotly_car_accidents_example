@@ -4,10 +4,22 @@ import plotly.express as px
 import pandas as pd
 import os
 
+# prompt: how do I test if I'm in colab?
+
+try:
+  import google.colab
+  colab = True
+except ImportError:
+  colab = False
+
 ##### Load data
 
 # get the absolute dir location of the working file
-file_dir = os.path.dirname(__file__)
+
+if colab == True:
+    file_dir = '/content/dash_plotly_car_accidents_example'
+else:
+  file_dir = os.path.dirname(os.path.dirname(__file__))
 
 
 # Processed data from https://data.gov.il/dataset/2023-puf
