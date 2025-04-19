@@ -6,8 +6,22 @@ import plotly.express as px
 import pandas as pd
 import os
 
-# Load data
-file_dir = os.path.dirname(__file__)
+
+##### Load data
+try:
+  import google.colab
+  colab = True
+except ImportError:
+  colab = False
+
+
+# get the absolute dir location of the working file
+
+if colab == True:
+    file_dir = '/content/dash_plotly_car_accidents_example'
+else:
+    file_dir = os.path.dirname(os.path.dirname(__file__))
+
 
 # Processed data from https://data.gov.il/dataset/2023-puf
 df = pd.read_csv(os.path.join(file_dir, 'accidents_2023_processed.csv'))
